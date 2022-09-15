@@ -1,63 +1,35 @@
 import * as React from "react"
-import { graphql } from "gatsby"
-import type { HeadFC, PageProps } from "gatsby"
-import { mapEdgesToNodes } from "../lib/helpers"
+import { graphql, PageProps } from "gatsby"
 
-import SEO from "../components/seo"
-import Layout from "../containers/layout"
-import { PortableText } from "@portabletext/react"
-import { GatsbyImage } from "gatsby-plugin-image"
+const TypegenPage = ({ data }: PageProps<Queries.TypegenPageQuery>) => {
+  const d = data.projects.edges.map(({ node }) => node)
 
-type IndexPageData = Queries.IndexPageDataQuery["pageData"]["edges"][0]["node"]
-// eslint-disable-next-line
-export const Head: HeadFC = () => <SEO />
-export default function IndexPage({
-  data,
-}: PageProps<Queries.TypegenPageQuery>) {
-  const pageData = mapEdgesToNodes<IndexPageData>(data?.pageData)[0]
-  const lead = pageData._rawLeadParagraph
-  const heroImageData = pageData.heroBanner?.asset?.gatsbyImageData
-  const heroImageAlt = pageData.heroBanner?.asset?.alt
-  const featuredProjects = pageData.projects
   return (
-    <Layout>
-      <h1>Home Page</h1>
-      <GatsbyImage alt={heroImageAlt} image={heroImageData} />
-      <PortableText value={lead} />
-      {featuredProjects?.map(p => (
-        <>
-          <div>{p.name}</div>
-          <div>{p?.slug?.current}</div>
-          <GatsbyImage
-            alt={p.hero.alt}
-            image={p?.hero?.asset?.gatsbyImageData}
-          />
-          <GatsbyImage
-            alt={p?.secondHero?.secondHeroImage?.alt}
-            image={p?.secondHero?.secondHeroImage?.asset?.gatsbyImageData}
-          />
-          {p?.images?.map(i => (
-            <GatsbyImage alt={i.alt} image={i?.asset?.gatsbyImageData} />
-          ))}
-        </>
-      ))}
+    <main>
+      <p>Site title: TODO</p>
+      <hr />
       <p>Query Result:</p>
       <pre>
-        <code>{JSON.stringify(pageData, null, 2)}</code>
+        <code>{JSON.stringify(d, null, 2)}</code>
       </pre>
-    </Layout>
+    </main>
   )
 }
 
+export default TypegenPage
+
 export const query = graphql`
-  query IndexPageData {
+  query TypegenPage {
+    site {
+      siteMetadata {
+        title
+      }
+    }
     pageData: allSanityHomePage {
       edges {
         node {
           _rawLeadParagraph
           heroBanner {
-            alt
-            title
             asset {
               gatsbyImageData
             }
@@ -85,8 +57,6 @@ export const query = graphql`
               current
             }
             hero {
-              alt
-              title
               asset {
                 gatsbyImageData
               }
@@ -106,6 +76,8 @@ export const query = graphql`
                 x
                 y
               }
+              title
+              alt
             }
             secondHero {
               secondHeroImage {
@@ -152,6 +124,74 @@ export const query = graphql`
                 x
                 y
               }
+            }
+          }
+        }
+      }
+    }
+
+    projects: allSanityProject(filter: { slug: { current: { ne: null } } }) {
+      edges {
+        node {
+          id
+          name
+          mediaType
+          _rawBrief
+          _rawIntro
+          _rawSubject
+          slug {
+            current
+          }
+          hero {
+            alt
+            title
+            asset {
+              _id
+              gatsbyImageData
+            }
+            crop {
+              _key
+              _type
+              bottom
+              left
+              right
+              top
+            }
+            hotspot {
+              _key
+              _type
+              height
+              width
+              x
+              y
+            }
+          }
+          elements {
+            name
+            _rawDescription
+          }
+          images {
+            alt
+            title
+            asset {
+              _id
+              gatsbyImageData
+            }
+            crop {
+              _key
+              _type
+              bottom
+              left
+              right
+              top
+            }
+            hotspot {
+              _key
+              _type
+              height
+              width
+              x
+              y
             }
           }
         }
