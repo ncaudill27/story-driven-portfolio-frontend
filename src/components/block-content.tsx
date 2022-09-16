@@ -1,8 +1,8 @@
 import { PortableText } from "@portabletext/react"
-import type { PortableTextProps } from "@portabletext/react"
+import type { PortableTextBlock } from "@portabletext/types"
 import React from "react"
 
-const BlockContent = ({ blocks }: PortableTextProps) => (
+const BlockContent = ({ blocks }: { blocks: PortableTextBlock }) => (
   <PortableText value={blocks} />
 )
 

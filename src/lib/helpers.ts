@@ -1,4 +1,4 @@
-import { ISharpGatsbyImageArgs } from "gatsby-plugin-image"
+import type { IGatsbyImageData } from "gatsby-plugin-image"
 
 type SanityImageCrop = {
   top: number
@@ -15,24 +15,22 @@ type SanityImageHotspot = {
 }
 
 type SanityImageAsset = {
-  _ref: string
-  _id: string
-  gatsbyImageData: ISharpGatsbyImageArgs
+  gatsbyImageData: IGatsbyImageData
 }
 
 export type SanityImage = {
   title: string
   alt: string
   asset: SanityImageAsset
-  crop: SanityImageCrop
-  hotspot: SanityImageHotspot
+  crop?: SanityImageCrop
+  hotspot?: SanityImageHotspot
 }
 
 export function cn<T>(...args: T[]) {
   return args.filter(Boolean).join(" ")
 }
 
-export function mapEdgesToNodes<T>(data: { edges: { node: T }[] }) {
+export function mapEdgesToNodes<T>(data: { edges: { node: T[] }[] }) {
   if (!data?.edges) return []
   return data.edges.map(edge => edge.node)
 }
