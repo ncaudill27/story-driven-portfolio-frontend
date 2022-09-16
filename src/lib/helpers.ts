@@ -30,7 +30,7 @@ export function cn<T>(...args: T[]) {
   return args.filter(Boolean).join(" ")
 }
 
-export function mapEdgesToNodes<T>(data: { edges: { node: T[] }[] }) {
+export function mapEdgesToNodes<T>(data: { edges: { node: T }[] }) {
   if (!data?.edges) return []
   return data.edges.map(edge => edge.node)
 }

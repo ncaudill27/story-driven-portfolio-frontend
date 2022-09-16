@@ -7,9 +7,9 @@ import { mapEdgesToNodes } from "../lib/helpers"
 
 import SEO from "../components/seo"
 import Layout from "../containers/layout"
-
 import { GatsbyImage } from "gatsby-plugin-image"
 import BlockContent from "../components/block-content"
+import Project from "../components/project"
 
 type DataProps = {
   pageData: {
@@ -19,82 +19,12 @@ type DataProps = {
   }
 }
 
-type ProjectProps = {
-  briefBlocks: PortableTextBlock
-  name: string
-  slug: string
-  hero: SanityImage
-  secondHero: SecondHero
-  images: SanityImage[]
-}
-
-type SecondHero = {
-  secondHeroImage: SanityImage
-} | null
-
-type Project = {
-  _rawBrief: PortableTextBlock
-  name: string
-  slug: {
-    current: string
-  }
-  hero: SanityImage
-  secondHero: SecondHero
-  images: SanityImage[]
-}
-
 type HomePageData = {
   _rawLeadParagraph: PortableTextBlock
   heroBanner: SanityImage
   projects: Project[]
 }
 
-function Project({
-  briefBlocks,
-  name,
-  slug,
-  hero,
-  secondHero,
-  images,
-}: ProjectProps) {
-  return (
-    <div>
-      <div>{name}</div>
-      <div>{slug}</div>
-      <BlockContent blocks={briefBlocks} />
-      <GatsbyImage alt={hero.alt} image={hero.asset.gatsbyImageData} />
-      {secondHero && (
-        <GatsbyImage
-          alt={secondHero.secondHeroImage.alt}
-          image={secondHero.secondHeroImage.asset?.gatsbyImageData}
-        />
-      )}
-      {images.map(i => (
-        <GatsbyImage alt={i.alt} image={i?.asset?.gatsbyImageData} />
-      ))}
-    </div>
-  )
-}
-
-type PPLProps = { projects: Project[] }
-function ProjectPreviewList({ projects }: PPLProps) {
-  return (
-    <>
-      {projects.map(p => {
-        return (
-          <Project
-            briefBlocks={p._rawBrief}
-            name={p.name}
-            slug={p.slug.current}
-            hero={p.hero}
-            secondHero={p.secondHero}
-            images={p.images}
-          />
-        )
-      })}
-    </>
-  )
-}
 // eslint-disable-next-line
 export const Head: HeadFC = () => <SEO />
 export default function IndexPage({ data }: PageProps<DataProps>) {
@@ -110,7 +40,7 @@ export default function IndexPage({ data }: PageProps<DataProps>) {
       <h1>Home Page</h1>
       <GatsbyImage alt={heroImageAlt} image={heroImageData} />
       <BlockContent blocks={leadBlocks} />
-      <ProjectPreviewList projects={featuredProjects} />
+      <Project.PreviewList projects={featuredProjects} />
       <p>Query Result:</p>
       <pre>
         <code>{JSON.stringify(pageData, null, 2)}</code>
