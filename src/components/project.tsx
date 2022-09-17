@@ -10,6 +10,7 @@ export type SecondHero = {
 } | null
 
 type Project = {
+  id: string
   _rawBrief: PortableTextBlock
   name: string
   slug: {
@@ -21,6 +22,7 @@ type Project = {
 }
 
 type PreviewListProps = { projects: Project[] }
+
 type ProjectProps = {
   briefBlocks: PortableTextBlock
   name: string
@@ -29,9 +31,11 @@ type ProjectProps = {
   secondHero: SecondHero
   images: SanityImage[]
 }
+
 type ProjectComponent = React.FunctionComponent<ProjectProps> & {
   PreviewList: PreviewListComponent
 }
+
 type PreviewListComponent = React.FunctionComponent<PreviewListProps>
 
 const Project: ProjectComponent = ({
@@ -47,16 +51,21 @@ const Project: ProjectComponent = ({
       <div>{name}</div>
       <div>{slug}</div>
       <BlockContent blocks={briefBlocks} />
-      <GatsbyImage alt={hero.alt} image={hero.asset.gatsbyImageData} />
+      <GatsbyImage alt={hero.alt} image={hero?.asset?.gatsbyImageData} />
       {secondHero && (
         <GatsbyImage
           alt={secondHero.secondHeroImage.alt}
           image={secondHero.secondHeroImage.asset?.gatsbyImageData}
         />
       )}
-      {images.map(i => (
-        <GatsbyImage alt={i.alt} image={i?.asset?.gatsbyImageData} />
-      ))}
+      {images.map(i => {
+        // TODO derive image lists for story/gallery/grid views
+        const key = i.asset._id
+        const alt = i.alt
+        const image = i?.asset?.gatsbyImageData
+
+        return <>{image && <GatsbyImage key={key} alt={alt} image={image} />}</>
+      })}
     </div>
   )
 }
@@ -67,9 +76,10 @@ Project.PreviewList = ({ projects }) => {
       {projects.map(p => {
         return (
           <Project
+            key={p.id}
             briefBlocks={p._rawBrief}
             name={p.name}
-            slug={p.slug.current}
+            slug={p?.slug?.current ?? ""}
             hero={p.hero}
             secondHero={p.secondHero}
             images={p.images}

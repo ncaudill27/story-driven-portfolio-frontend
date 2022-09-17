@@ -15,6 +15,7 @@ type SanityImageHotspot = {
 }
 
 type SanityImageAsset = {
+  _id: string
   gatsbyImageData: IGatsbyImageData
 }
 

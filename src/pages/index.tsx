@@ -28,13 +28,12 @@ type HomePageData = {
 // eslint-disable-next-line
 export const Head: HeadFC = () => <SEO />
 export default function IndexPage({ data }: PageProps<DataProps>) {
-  console.log(data)
-
   const pageData = mapEdgesToNodes<HomePageData>(data.pageData)[0]
   const leadBlocks = pageData._rawLeadParagraph
   const heroImageData = pageData.heroBanner?.asset?.gatsbyImageData
   const heroImageAlt = pageData.heroBanner?.alt
   const featuredProjects = pageData.projects
+
   return (
     <Layout>
       <h1>Home Page</h1>
@@ -56,104 +55,25 @@ export const query = graphql`
         node {
           _rawLeadParagraph
           heroBanner {
-            alt
-            title
-            asset {
-              gatsbyImageData
-            }
-            crop {
-              _key
-              _type
-              bottom
-              left
-              right
-              top
-            }
-            hotspot {
-              _key
-              _type
-              height
-              width
-              x
-              y
-            }
+            ...SanityMainImageFragment
           }
           projects: featuredWork {
+            id
             _rawBrief
             name
             slug {
               current
             }
             hero {
-              alt
-              title
-              asset {
-                gatsbyImageData
-              }
-              crop {
-                _key
-                _type
-                bottom
-                left
-                right
-                top
-              }
-              hotspot {
-                _key
-                _type
-                height
-                width
-                x
-                y
-              }
+              ...SanityMainImageFragment
             }
             secondHero {
               secondHeroImage {
-                title
-                alt
-                asset {
-                  gatsbyImageData
-                }
-                crop {
-                  _key
-                  _type
-                  bottom
-                  left
-                  right
-                  top
-                }
-                hotspot {
-                  _key
-                  _type
-                  height
-                  width
-                  x
-                  y
-                }
+                ...SanityMainImageFragment
               }
             }
             images {
-              title
-              alt
-              asset {
-                gatsbyImageData
-              }
-              crop {
-                _key
-                _type
-                bottom
-                left
-                right
-                top
-              }
-              hotspot {
-                _key
-                _type
-                height
-                width
-                x
-                y
-              }
+              ...SanityMainImageFragment
             }
           }
         }
