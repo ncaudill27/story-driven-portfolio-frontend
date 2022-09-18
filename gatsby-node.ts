@@ -1,8 +1,31 @@
 import { GatsbyNode } from "gatsby"
+import { mapEdgesToNodes } from "./src/lib/helpers"
+
+type ProjectNodeData = {
+  id: string
+  name: string
+  mediaType?: string
+  slug: {
+    current: string
+  } | null
+}
+
+type SanityGraphQLResponse<T> = {
+  data: {
+    projects: {
+      edges: {
+        node: T
+      }[]
+    }
+  }
+  errors: {
+    [i: string]: string
+  }
+}
 
 async function createProjectPages(graphql, actions): GatsbyNode["createPages"] {
   const { createPage } = actions
-  const result = await graphql(`
+  const result: SanityGraphQLResponse<ProjectNodeData> = await graphql(`
     query AllProjects {
       projects: allSanityProject(filter: { slug: { current: { ne: null } } }) {
         edges {
@@ -10,63 +33,8 @@ async function createProjectPages(graphql, actions): GatsbyNode["createPages"] {
             id
             name
             mediaType
-            _rawBrief
-            _rawIntro
-            _rawSubject
             slug {
               current
-            }
-            hero {
-              alt
-              title
-              asset {
-                _id
-                gatsbyImageData
-              }
-              crop {
-                _key
-                _type
-                bottom
-                left
-                right
-                top
-              }
-              hotspot {
-                _key
-                _type
-                height
-                width
-                x
-                y
-              }
-            }
-            elements {
-              name
-              _rawDescription
-            }
-            images {
-              alt
-              title
-              asset {
-                _id
-                gatsbyImageData
-              }
-              crop {
-                _key
-                _type
-                bottom
-                left
-                right
-                top
-              }
-              hotspot {
-                _key
-                _type
-                height
-                width
-                x
-                y
-              }
             }
           }
         }
@@ -77,12 +45,13 @@ async function createProjectPages(graphql, actions): GatsbyNode["createPages"] {
   if (result.errors) throw result.errors
 
   // TODO check optimize
-  const projectEdges = result?.data?.projects?.edges
 
-  projectEdges.forEach(({ node }) => {
-    const id = node.id
-    const slug = node?.slug?.current
-    const section = node.mediaType
+  const projectEdges = mapEdgesToNodes<ProjectNodeData>(result?.data?.projects)
+
+  projectEdges.forEach(p => {
+    const id = p.id
+    const slug = p?.slug?.current
+    const section = p.mediaType
     const path = `/${section}/${slug}/`
 
     if (slug) {
