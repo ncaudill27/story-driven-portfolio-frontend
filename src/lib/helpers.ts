@@ -1,5 +1,13 @@
 import type { IGatsbyImageData } from "gatsby-plugin-image"
 
+export type PageDataProps<T> = {
+  pageData: {
+    edges: {
+      node: T
+    }[]
+  }
+}
+
 type SanityImageCrop = {
   top: number
   bottom: number
@@ -43,6 +51,27 @@ export function mapEdgesToNodes<T>(data: { edges: { node: T }[] }) {
   }
   return data.edges.map(edge => edge.node)
 }
+
+// interface MayHaveSlug {
+//   slug: {
+//     current?: string
+//   } | null // you can use any type, number is just an example
+// }
+// interface HasSlug {
+//   slug: { current: string }
+// }
+// export function filterSlugless<T extends MayHaveSlug>(
+//   a: T[]
+// ): Array<T & HasSlug> {
+//   let filtered = []
+//   for (let i = 0; i < a.length; i++) {
+//     if (a[i].slug !== null) {
+//       filtered.push(a[i])
+//     }
+//   }
+
+//   return filtered
+// }
 
 export function getProjectUrl(slug: { current: string }) {
   return `/projects/${slug.current || slug}/`

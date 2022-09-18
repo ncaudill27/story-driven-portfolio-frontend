@@ -2,7 +2,7 @@ import * as React from "react"
 import { graphql } from "gatsby"
 import type { HeadFC, PageProps } from "gatsby"
 import type { PortableTextBlock } from "@portabletext/types"
-import type { SanityImage } from "../lib/helpers"
+import type { PageDataProps, SanityImage } from "../lib/helpers"
 import { mapEdgesToNodes } from "../lib/helpers"
 
 import SEO from "../components/seo"
@@ -11,14 +11,7 @@ import { GatsbyImage } from "gatsby-plugin-image"
 import BlockContent from "../components/block-content"
 import Project from "../components/project"
 
-type DataProps = {
-  pageData: {
-    edges: {
-      node: HomePageData
-    }[]
-  }
-}
-
+type DataProps = PageDataProps<HomePageData>
 type HomePageData = {
   _rawLeadParagraph: PortableTextBlock
   heroBanner: SanityImage

@@ -1,7 +1,7 @@
 import * as React from "react"
 import { graphql } from "gatsby"
 import { GatsbyImage } from "gatsby-plugin-image"
-import { mapEdgesToNodes } from "../lib/helpers"
+import { mapEdgesToNodes, PageDataProps } from "../lib/helpers"
 import { ucfirst } from "../lib/string-utils"
 import type { HeadFC, PageProps, HeadProps } from "gatsby"
 import type { PortableTextBlock } from "@portabletext/types"
@@ -11,14 +11,7 @@ import SEO from "../components/seo"
 import Layout from "../containers/layout"
 import BlockContent from "../components/block-content"
 
-type DataProps = {
-  pageData: {
-    edges: {
-      node: ContactPageData
-    }[]
-  }
-}
-
+type DataProps = PageDataProps<ContactPageData>
 type ContactPageData = {
   _rawBio: PortableTextBlock
   brettPortrait: SanityImage
