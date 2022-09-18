@@ -55,7 +55,7 @@ export const query = graphql`
         node {
           _rawLeadParagraph
           heroBanner {
-            ...SanityMainImageFragment
+            ...SanityMainImageCoreFragment
           }
           projects: featuredWork {
             id
@@ -65,15 +65,22 @@ export const query = graphql`
               current
             }
             hero {
-              ...SanityMainImageFragment
+              title
+              ...SanityMainImageCoreFragment
             }
             secondHero {
               secondHeroImage {
-                ...SanityMainImageFragment
+                title
+                ...SanityMainImageCoreFragment
               }
             }
             images {
-              ...SanityMainImageFragment
+              alt
+              title
+              asset {
+                _id
+                gatsbyImageData
+              }
             }
           }
         }
