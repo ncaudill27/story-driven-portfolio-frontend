@@ -1,8 +1,8 @@
 import * as React from "react"
 import { useSiteMetadata } from "../hooks/use-site-metadata"
-import type { SEOMetadata } from "../hooks/use-site-metadata"
+import type { SiteMetadata } from "../hooks/use-site-metadata"
 
-interface SEOProps extends Partial<SEOMetadata> {
+interface SEOProps extends Partial<SiteMetadata> {
   children?: React.ReactElement | React.ReactElement[]
 }
 

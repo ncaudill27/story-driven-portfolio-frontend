@@ -14,10 +14,15 @@ type SanityImageHotspot = {
   width: number
 }
 
-type SanityImageAsset = {
+interface SEOImageAsset extends StandardImageAsset {
+  publicUrl: string
+}
+
+type StandardImageAsset = {
   _id: string
   gatsbyImageData: IGatsbyImageData
 }
+type SanityImageAsset = StandardImageAsset | SEOImageAsset
 
 export type SanityImage = {
   title: string
@@ -32,7 +37,10 @@ export function cn<T>(...args: T[]) {
 }
 
 export function mapEdgesToNodes<T>(data: { edges: { node: T }[] }) {
-  if (!data?.edges) return []
+  if (!data?.edges) {
+    console.warn(`Missing property edges: \n${JSON.stringify(data, null, 2)}`)
+    return []
+  }
   return data.edges.map(edge => edge.node)
 }
 

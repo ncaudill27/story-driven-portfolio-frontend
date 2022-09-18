@@ -1,6 +1,6 @@
 import { graphql, useStaticQuery } from "gatsby"
 
-export type SEOMetadata = {
+export type SiteMetadata = {
   title: string
   description: string
   pathname: string
@@ -9,7 +9,7 @@ export type SEOMetadata = {
   siteUrl: string
 }
 
-export function useSiteMetadata(): SEOMetadata {
+export function useSiteMetadata(): SiteMetadata {
   const data = useStaticQuery(graphql`
     query {
       site {
