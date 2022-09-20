@@ -1,4 +1,5 @@
 import { GatsbyNode } from "gatsby"
+import pathUtil from "path"
 import { mapEdgesToNodes } from "./src/lib/helpers"
 
 type ProjectNodeData = {
@@ -23,7 +24,7 @@ type SanityGraphQLResponse<T> = {
   }
 }
 
-async function createProjectPages(graphql, actions): GatsbyNode["createPages"] {
+async function createProjectPages(graphql, actions) {
   const { createPage } = actions
   const result: SanityGraphQLResponse<ProjectNodeData> = await graphql(`
     query AllProjects {
@@ -57,13 +58,16 @@ async function createProjectPages(graphql, actions): GatsbyNode["createPages"] {
     if (slug) {
       createPage({
         path,
-        component: require.resolve("./src/templates/project.js"),
+        component: pathUtil.resolve("./src/templates/project.tsx"),
         context: { id },
       })
     }
   })
 }
 
-exports.createPages = async ({ graphql, actions }) => {
+export const createPages: GatsbyNode["createPages"] = async ({
+  graphql,
+  actions,
+}) => {
   await createProjectPages(graphql, actions)
 }

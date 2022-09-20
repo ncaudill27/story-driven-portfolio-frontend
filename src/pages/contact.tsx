@@ -3,7 +3,7 @@ import { graphql } from "gatsby"
 import { GatsbyImage } from "gatsby-plugin-image"
 import { mapEdgesToNodes, PageDataProps } from "../lib/helpers"
 import { ucfirst } from "../lib/string-utils"
-import type { HeadFC, PageProps, HeadProps } from "gatsby"
+import type { HeadFC, PageProps } from "gatsby"
 import type { PortableTextBlock } from "@portabletext/types"
 import type { SanityImage } from "../lib/helpers"
 
@@ -26,8 +26,6 @@ type ContactPageData = {
 }
 
 export const Head: HeadFC<DataProps> = ({ data }) => {
-  // TODO add static query to get publicUrl for hero
-
   const { brettPortrait } = mapEdgesToNodes(data.pageData)[0]
   const seoImage = brettPortrait.asset.publicUrl
   const seoalt = brettPortrait.alt
