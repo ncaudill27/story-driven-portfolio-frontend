@@ -2,35 +2,19 @@ import * as React from "react"
 import { graphql } from "gatsby"
 import { GatsbyImage } from "gatsby-plugin-image"
 import { toPlainText } from "@portabletext/react"
-import { mapEdgesToNodes } from "../lib/helpers"
 import type { HeadFC, PageProps } from "gatsby"
-import type { IGatsbyImageData } from "gatsby-plugin-image"
-import type { PortableTextBlock } from "@portabletext/types"
-import type { PageDataProps } from "../lib/helpers"
+import type { IProject } from "../types/project"
 
 import SEO from "../components/seo"
 import Layout from "../components/layout"
 import BlockContent from "../components/block-content"
 
-type DataProps = PageDataProps<ProjectPageData>
-type ProjectPageData = {
-  _rawBrief: PortableTextBlock
-  _rawIntro?: PortableTextBlock
-  name: string
-  hero: {
-    alt: string
-    title: string
-    asset: {
-      gatsbyImageData: IGatsbyImageData
-      publicUrl: string
-    }
-  }
+type DataProps = {
+  pageData: IProject
 }
 
 export const Head: HeadFC<DataProps> = ({ data }) => {
-  const { name, hero, _rawBrief } = mapEdgesToNodes<ProjectPageData>(
-    data.pageData
-  )[0]
+  const { name, hero, _rawBrief } = data.pageData
   const description = toPlainText(_rawBrief)
   const seoImage = hero.asset.publicUrl
   const seoAlt = hero.alt
@@ -47,9 +31,18 @@ export const Head: HeadFC<DataProps> = ({ data }) => {
 }
 
 export default function ProjectTemplate({ data }: PageProps<DataProps>) {
-  const { name, hero, _rawBrief } = mapEdgesToNodes<ProjectPageData>(
-    data.pageData
-  )[0]
+  console.log(data.pageData)
+  const {
+    name,
+    hero,
+    secondHero,
+    _rawBrief: brief,
+    _rawIntro: intro,
+    _rawSubject: subject,
+    elements,
+    images,
+  } = data.pageData
+
   const heroImage = hero.asset.gatsbyImageData
   const heroAlt = hero.alt
 
@@ -57,23 +50,35 @@ export default function ProjectTemplate({ data }: PageProps<DataProps>) {
     <Layout>
       <h1>{name}</h1>
       <GatsbyImage image={heroImage} alt={heroAlt} />
-      <BlockContent blocks={_rawBrief} />
+      <BlockContent blocks={brief} />
     </Layout>
   )
 }
 export const query = graphql`
-  query ProjectTemplateData($id: String) {
+  query ProjectTemplateData($id: String!) {
     pageData: sanityProject(id: { eq: $id }) {
+      name
+      mediaType
       _rawBrief
       _rawIntro
-      name
+      _rawSubject
+      elements {
+        name
+        _rawDescription
+      }
       hero {
         alt
-        title
         asset {
           gatsbyImageData
-          publicUrl
         }
+      }
+      secondHero {
+        secondHeroImage {
+          ...SanityMainImageCoreFragment
+        }
+      }
+      images {
+        ...SanityMainImageCoreFragment
       }
     }
   }

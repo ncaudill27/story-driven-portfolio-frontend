@@ -1,27 +1,12 @@
 import * as React from "react"
 import type { PortableTextBlock } from "@portabletext/types"
 import type { SanityImage } from "../lib/helpers"
+import type { SecondHero, IProject } from "../types/project"
 
 import BlockContent from "../components/block-content"
 import { GatsbyImage } from "gatsby-plugin-image"
 
-export type SecondHero = {
-  secondHeroImage: SanityImage
-} | null
-
-type Project = {
-  id: string
-  _rawBrief: PortableTextBlock
-  name: string
-  slug: {
-    current: string
-  }
-  hero: SanityImage
-  secondHero: SecondHero
-  images: SanityImage[]
-}
-
-type PreviewListProps = { projects: Project[] }
+type PreviewListProps = { projects: IProject[] }
 
 type ProjectProps = {
   briefBlocks: PortableTextBlock
