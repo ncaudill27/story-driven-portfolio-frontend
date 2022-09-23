@@ -1,32 +1,27 @@
-import { GatsbyNode } from "gatsby"
-import pathUtil from "path"
+import { Actions, GatsbyNode } from "gatsby"
+import * as pathUtil from "path"
 import { mapEdgesToNodes } from "./src/lib/helpers"
+import type { IProject } from "./src/types/project"
+import type { SanityGQLData } from "./src/types/sanity"
 
-type ProjectNodeData = {
-  id: string
-  name: string
-  mediaType?: string
-  slug: {
-    current: string
-  } | null
-}
+type GatsbyNodeGQLFuncion<T, V = {}> = (
+  query: string,
+  variables?: V
+) => Promise<{
+  errors?: any
+  data?: T | undefined
+}>
 
-type SanityGraphQLResponse<T> = {
-  data: {
-    projects: {
-      edges: {
-        node: T
-      }[]
-    }
-  }
-  errors: {
-    [i: string]: string
-  }
-}
+type CreatePagesFunction<T> = (
+  g: GatsbyNodeGQLFuncion<SanityGQLData<T>>,
+  a: Actions["createPage"]
+) => void
 
-async function createProjectPages(graphql, actions) {
-  const { createPage } = actions
-  const result: SanityGraphQLResponse<ProjectNodeData> = await graphql(`
+const createProjectPages: CreatePagesFunction<IProject> = async (
+  graphql,
+  createPage
+) => {
+  const result = await graphql(`
     query AllProjects {
       projects: allSanityProject(filter: { slug: { current: { ne: null } } }) {
         edges {
@@ -44,10 +39,9 @@ async function createProjectPages(graphql, actions) {
   `)
 
   if (result.errors) throw result.errors
+  const projects = result.data?.projects
 
-  // TODO check optimize
-
-  const projectEdges = mapEdgesToNodes<ProjectNodeData>(result?.data?.projects)
+  const projectEdges = mapEdgesToNodes<IProject>(projects)
 
   projectEdges.forEach(p => {
     const id = p.id
@@ -65,9 +59,23 @@ async function createProjectPages(graphql, actions) {
   })
 }
 
+const createSectionPages: CreatePagesFunction<{}> = (_, createPage) => {
+  const sections = ["analog", "digital", "film"]
+
+  for (const section of sections) {
+    const path = "/" + section
+    createPage({
+      path,
+      component: pathUtil.resolve("./src/templates/section.tsx"),
+      context: { section },
+    })
+  }
+}
+
 export const createPages: GatsbyNode["createPages"] = async ({
   graphql,
-  actions,
+  actions: { createPage },
 }) => {
-  await createProjectPages(graphql, actions)
+  createSectionPages(graphql, createPage)
+  await createProjectPages(graphql, createPage)
 }

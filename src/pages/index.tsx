@@ -1,9 +1,10 @@
 import * as React from "react"
 import { graphql } from "gatsby"
+import { mapEdgesToNodes } from "../lib/helpers"
 import type { HeadFC, PageProps } from "gatsby"
 import type { PortableTextBlock } from "@portabletext/types"
-import type { PageDataProps, SanityImage } from "../lib/helpers"
-import { mapEdgesToNodes } from "../lib/helpers"
+import type { SanityImage, SanityGQLData } from "../types/sanity"
+import type { IProject } from "../types/project"
 
 import SEO from "../components/seo"
 import Layout from "../containers/layout"
@@ -11,11 +12,11 @@ import { GatsbyImage } from "gatsby-plugin-image"
 import BlockContent from "../components/block-content"
 import Project from "../components/project"
 
-type DataProps = PageDataProps<HomePageData>
+type DataProps = SanityGQLData<HomePageData>
 type HomePageData = {
   _rawLeadParagraph: PortableTextBlock
   heroBanner: SanityImage
-  projects: Project[]
+  projects: IProject[]
 }
 
 // eslint-disable-next-line

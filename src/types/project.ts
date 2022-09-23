@@ -1,4 +1,4 @@
-import type { SanityImage } from "../lib/helpers"
+import type { SanityImage } from "./sanity"
 import type { PortableTextBlock } from "@portabletext/types"
 
 export type SecondHero = {
@@ -11,14 +11,15 @@ export interface IProject {
   _rawIntro?: PortableTextBlock
   _rawSubject: PortableTextBlock
   name: string
+  mediaType: string
   slug: {
     current: string
   }
+  hero: SanityImage
+  secondHero?: SecondHero
+  images: SanityImage[]
   elements: {
     name: string
     _rawDescription: PortableTextBlock
   }[]
-  hero: SanityImage
-  secondHero: SecondHero
-  images: SanityImage[]
 }
