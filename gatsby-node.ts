@@ -76,6 +76,6 @@ export const createPages: GatsbyNode["createPages"] = async ({
   graphql,
   actions: { createPage },
 }) => {
-  createSectionPages(graphql, createPage)
+  // createSectionPages(graphql, createPage)
   await createProjectPages(graphql, createPage)
 }
