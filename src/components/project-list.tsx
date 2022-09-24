@@ -1,9 +1,9 @@
 import * as React from "react"
 import type { PortableTextBlock } from "@portabletext/types"
-import type { SanityImage } from "../lib/helpers"
+import type { SanityImage } from "../types/sanity"
 import type { SecondHero, IProject } from "../types/project"
 
-import BlockContent from "../components/block-content"
+import BlockContent from "./block-content"
 import { GatsbyImage } from "gatsby-plugin-image"
 
 type PreviewListProps = { projects: IProject[] }
@@ -17,20 +17,34 @@ type ProjectProps = {
   images: SanityImage[]
 }
 
-type ProjectComponent = React.FunctionComponent<ProjectProps> & {
-  PreviewList: PreviewListComponent
+export default function PreviewList({ projects }: PreviewListProps) {
+  return (
+    <>
+      {projects.map(p => {
+        return (
+          <Project
+            key={p.id}
+            briefBlocks={p._rawBrief}
+            name={p.name}
+            slug={p?.slug?.current ?? ""}
+            hero={p.hero}
+            secondHero={p.secondHero}
+            images={p.images}
+          />
+        )
+      })}
+    </>
+  )
 }
 
-type PreviewListComponent = React.FunctionComponent<PreviewListProps>
-
-const Project: ProjectComponent = ({
+function Project({
   briefBlocks,
   name,
   slug,
   hero,
   secondHero,
   images,
-}) => {
+}: ProjectProps) {
   return (
     <div>
       <div>{name}</div>
@@ -54,24 +68,3 @@ const Project: ProjectComponent = ({
     </div>
   )
 }
-
-Project.PreviewList = ({ projects }) => {
-  return (
-    <>
-      {projects.map(p => {
-        return (
-          <Project
-            key={p.id}
-            briefBlocks={p._rawBrief}
-            name={p.name}
-            slug={p?.slug?.current ?? ""}
-            hero={p.hero}
-            secondHero={p.secondHero}
-            images={p.images}
-          />
-        )
-      })}
-    </>
-  )
-}
-export default Project
