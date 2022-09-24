@@ -10,7 +10,7 @@ import SEO from "../components/seo"
 import Layout from "../containers/layout"
 import { GatsbyImage } from "gatsby-plugin-image"
 import BlockContent from "../components/block-content"
-import Project from "../components/project"
+import ProjectList from "../components/project-list"
 
 type DataProps = SanityGQLData<HomePageData>
 type HomePageData = {
@@ -33,7 +33,7 @@ export default function IndexPage({ data }: PageProps<DataProps>) {
       <h1>Home Page</h1>
       <GatsbyImage alt={heroImageAlt} image={heroImageData} />
       <BlockContent blocks={leadBlocks} />
-      <Project.PreviewList projects={featuredProjects} />
+      <ProjectList projects={featuredProjects} />
       <p>Query Result:</p>
       <pre>
         <code>{JSON.stringify(pageData, null, 2)}</code>
@@ -53,7 +53,7 @@ export const query = graphql`
           }
           projects: featuredWork {
             id
-            _rawBrief
+            brief: _rawBrief
             name
             slug {
               current

@@ -1,17 +1,17 @@
 import * as React from "react"
 import { graphql } from "gatsby"
 import { GatsbyImage } from "gatsby-plugin-image"
-import { mapEdgesToNodes, PageDataProps } from "../lib/helpers"
+import { mapEdgesToNodes } from "../lib/helpers"
 import { ucfirst } from "../lib/string-utils"
 import type { HeadFC, PageProps } from "gatsby"
 import type { PortableTextBlock } from "@portabletext/types"
-import type { SanityImage } from "../lib/helpers"
+import type { SanityImage, SanityGQLData } from "../types/sanity"
 
 import SEO from "../components/seo"
 import Layout from "../containers/layout"
 import BlockContent from "../components/block-content"
 
-type DataProps = PageDataProps<ContactPageData>
+type DataProps = SanityGQLData<ContactPageData>
 type ContactPageData = {
   _rawBio: PortableTextBlock
   brettPortrait: SanityImage

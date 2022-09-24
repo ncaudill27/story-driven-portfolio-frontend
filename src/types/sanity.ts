@@ -22,16 +22,11 @@ type SanityImageHotspot = {
   width: number
 }
 
-interface SEOImageAsset extends StandardImageAsset {
-  publicUrl: string
-}
-
-type StandardImageAsset = {
+type SanityImageAsset = {
   _id: string
   gatsbyImageData: IGatsbyImageData
+  publicUrl: string
 }
-
-type SanityImageAsset = StandardImageAsset | SEOImageAsset
 
 export type SanityImage = {
   title: string

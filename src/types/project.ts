@@ -7,19 +7,19 @@ export type SecondHero = {
 
 export interface IProject {
   id: string
-  _rawBrief: PortableTextBlock
-  _rawIntro?: PortableTextBlock
-  _rawSubject: PortableTextBlock
+  brief: PortableTextBlock
+  intro?: PortableTextBlock
+  subject: PortableTextBlock
   name: string
   mediaType: string
   slug: {
     current: string
   }
   hero: SanityImage
-  secondHero?: SecondHero
+  secondHero: SecondHero
   images: SanityImage[]
   elements: {
     name: string
-    _rawDescription: PortableTextBlock
+    description: PortableTextBlock
   }[]
 }
