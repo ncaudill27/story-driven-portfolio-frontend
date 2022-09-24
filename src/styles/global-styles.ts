@@ -1,4 +1,5 @@
 import { createGlobalStyle } from "styled-components"
+import { BLUE } from "./constants"
 
 export default createGlobalStyle`
   /*
@@ -30,6 +31,8 @@ export default createGlobalStyle`
   body {
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
+    background-color: ${BLUE[100]};
+    color: ${BLUE[800]};
   }
 
   img, picture, video, canvas, svg {
