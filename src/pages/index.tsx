@@ -52,30 +52,7 @@ export const query = graphql`
             ...SanityMainImageCoreFragment
           }
           projects: featuredWork {
-            id
-            brief: _rawBrief
-            name
-            slug {
-              current
-            }
-            hero {
-              title
-              ...SanityMainImageCoreFragment
-            }
-            secondHero {
-              secondHeroImage {
-                title
-                ...SanityMainImageCoreFragment
-              }
-            }
-            images {
-              alt
-              title
-              asset {
-                _id
-                gatsbyImageData
-              }
-            }
+            ...SanityProjectPreview
           }
         }
       }

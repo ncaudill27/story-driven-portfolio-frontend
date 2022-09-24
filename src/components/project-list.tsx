@@ -24,7 +24,7 @@ export default function PreviewList({ projects }: PreviewListProps) {
         return (
           <Project
             key={p.id}
-            briefBlocks={p._rawBrief}
+            briefBlocks={p.brief}
             name={p.name}
             slug={p?.slug?.current ?? ""}
             hero={p.hero}

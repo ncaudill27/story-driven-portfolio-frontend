@@ -33,3 +33,32 @@ export const SanityMainImageHotspotFragment = graphql`
     }
   }
 `
+
+export const SanityProjectPreview = graphql`
+  fragment SanityProjectPreview on SanityProject {
+    id
+    brief: _rawBrief
+    name
+    slug {
+      current
+    }
+    hero {
+      title
+      ...SanityMainImageCoreFragment
+    }
+    secondHero {
+      secondHeroImage {
+        title
+        ...SanityMainImageCoreFragment
+      }
+    }
+    images {
+      alt
+      title
+      asset {
+        _id
+        gatsbyImageData
+      }
+    }
+  }
+`
