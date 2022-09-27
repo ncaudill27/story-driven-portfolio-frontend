@@ -12,9 +12,6 @@ export interface IProject {
   subject: PortableTextBlock
   name: string
   mediaType: string
-  slug: {
-    current: string
-  }
   hero: SanityImage
   secondHero: SecondHero
   images: SanityImage[]

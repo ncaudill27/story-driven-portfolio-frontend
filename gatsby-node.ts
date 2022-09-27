@@ -1,6 +1,7 @@
 import { Actions, GatsbyNode } from "gatsby"
 import * as pathUtil from "path"
 import { mapEdgesToNodes } from "./src/lib/helpers"
+import { slugify } from "./src/lib/string-utils"
 import type { IProject } from "./src/types/project"
 import type { SanityGQLData } from "./src/types/sanity"
 
@@ -45,7 +46,7 @@ const createProjectPages: CreatePagesFunction<IProject> = async (
 
   projectEdges.forEach(p => {
     const id = p.id
-    const slug = p?.slug?.current
+    const slug = slugify(p.name)
     const section = p.mediaType
     const path = `/${section}/${slug}/`
 
@@ -57,19 +58,6 @@ const createProjectPages: CreatePagesFunction<IProject> = async (
       })
     }
   })
-}
-
-const createSectionPages: CreatePagesFunction<{}> = (_, createPage) => {
-  const sections = ["analog", "digital", "film"]
-
-  for (const section of sections) {
-    const path = "/" + section
-    createPage({
-      path,
-      component: pathUtil.resolve("./src/templates/section.tsx"),
-      context: { section },
-    })
-  }
 }
 
 export const createPages: GatsbyNode["createPages"] = async ({

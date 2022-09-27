@@ -5,31 +5,41 @@ import type { SecondHero, IProject } from "../types/project"
 
 import BlockContent from "./block-content"
 import { GatsbyImage } from "gatsby-plugin-image"
+import { slugify } from "../lib/string-utils"
 
 type PreviewListProps = { projects: IProject[] }
 
 type ProjectProps = {
-  briefBlocks: PortableTextBlock
   name: string
   slug: string
+  briefBlocks: PortableTextBlock
   hero: SanityImage
   secondHero: SecondHero
   images: SanityImage[]
 }
 
 export default function PreviewList({ projects }: PreviewListProps) {
+  // TODO generate different components:
+  // Fullbleed
+  // Double Hero
   return (
     <>
-      {projects.map(p => {
+      {projects.map(({ id, name, brief, hero, secondHero, images }) => {
+        const slug = slugify(name)
+
+        // TODO determine what flags to generate for differing compositions
+        // doubleHero
+        // extra images
+
         return (
-          <Project
-            key={p.id}
-            briefBlocks={p.brief}
-            name={p.name}
-            slug={p?.slug?.current ?? ""}
-            hero={p.hero}
-            secondHero={p.secondHero}
-            images={p.images}
+          <ProjectPreview
+            key={id}
+            briefBlocks={brief}
+            name={name}
+            slug={slug}
+            hero={hero}
+            secondHero={secondHero}
+            images={images}
           />
         )
       })}
@@ -37,7 +47,7 @@ export default function PreviewList({ projects }: PreviewListProps) {
   )
 }
 
-function Project({
+function ProjectPreview({
   briefBlocks,
   name,
   slug,
@@ -58,7 +68,6 @@ function Project({
         />
       )}
       {images.map(i => {
-        // TODO derive image lists for story/gallery/grid views
         const key = i.asset._id
         const alt = i.alt
         const image = i?.asset?.gatsbyImageData
