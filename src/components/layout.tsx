@@ -1,6 +1,7 @@
 import React, { ReactElement } from "react"
 
 import GlobalStyles from "../styles/global-styles"
+import Header from "./header"
 
 type LayoutComponentProps = {
   children: ReactElement | ReactElement[]
@@ -9,6 +10,7 @@ type LayoutComponentProps = {
 const Layout = ({ children }: LayoutComponentProps) => (
   <>
     <GlobalStyles />
+    <Header />
     {children}
   </>
 )
