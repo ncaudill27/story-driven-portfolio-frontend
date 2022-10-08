@@ -20,7 +20,7 @@ type AnalogPageData = {
 
 // eslint-disable-next-line
 export const Head: HeadFC = () => <SEO />
-export default function IndexPage({ data }: PageProps<DataProps>) {
+export default function AnalogPage({ data }: PageProps<DataProps>) {
   const projects = mapEdgesToNodes<IProject>(data.projects)
   const pageData = mapEdgesToNodes<AnalogPageData>(data.pageData)[0]
   const heroImageAlt = pageData.digitalHero.asset.altText
