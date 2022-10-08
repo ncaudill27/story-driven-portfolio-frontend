@@ -12,8 +12,8 @@ import { GatsbyImage } from "gatsby-plugin-image"
 import BlockContent from "../components/block-content"
 import ProjectList from "../components/project-list"
 
-type DataProps = SanityGQLData<IProject> & SanityGQLData<DigitlePageData>
-type DigitlePageData = {
+type DataProps = SanityGQLData<IProject> & SanityGQLData<DigitalPageData>
+type DigitalPageData = {
   intro: PortableTextBlock
   digitalHero: SanityImage
 }
@@ -22,7 +22,7 @@ type DigitlePageData = {
 export const Head: HeadFC = () => <SEO />
 export default function IndexPage({ data }: PageProps<DataProps>) {
   const projects = mapEdgesToNodes<IProject>(data.projects)
-  const pageData = mapEdgesToNodes<DigitlePageData>(data.pageData)[0]
+  const pageData = mapEdgesToNodes<DigitalPageData>(data.pageData)[0]
   const heroImageAlt = pageData.digitalHero.alt
   const heroImageData = pageData.digitalHero.asset.gatsbyImageData
   const intro = pageData.intro
