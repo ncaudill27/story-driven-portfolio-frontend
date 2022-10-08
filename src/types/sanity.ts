@@ -24,13 +24,13 @@ type SanityImageHotspot = {
 
 type SanityImageAsset = {
   _id: string
+  title: string | null
+  altText: string | null
   gatsbyImageData: IGatsbyImageData
   publicUrl: string
 }
 
 export type SanityImage = {
-  title: string
-  alt: string
   asset: SanityImageAsset
   crop?: SanityImageCrop
   hotspot?: SanityImageHotspot

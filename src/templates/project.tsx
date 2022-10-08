@@ -17,7 +17,7 @@ export const Head: HeadFC<DataProps> = ({ data }) => {
   const { name, hero, brief } = data.pageData
   const description = toPlainText(brief)
   const seoImage = hero.asset.publicUrl
-  const seoAlt = hero.alt
+  const seoAlt = hero.asset?.altText
   console.log(description)
 
   return (
@@ -43,7 +43,7 @@ export default function ProjectTemplate({ data }: PageProps<DataProps>) {
       <h1>{name}</h1>
       <>
         <GatsbyImage
-          alt={leadImage.alt}
+          alt={leadImage.asset?.altText}
           image={leadImage.asset.gatsbyImageData}
         />
         <BlockContent blocks={leadParagraph} />
@@ -51,7 +51,7 @@ export default function ProjectTemplate({ data }: PageProps<DataProps>) {
       <>
         <BlockContent blocks={subject} />
         <GatsbyImage
-          alt={subjectImage.alt}
+          alt={subjectImage.asset?.altText}
           image={subjectImage.asset.gatsbyImageData}
         />
       </>
@@ -65,7 +65,7 @@ export default function ProjectTemplate({ data }: PageProps<DataProps>) {
               <h2>{name}</h2>
               <BlockContent blocks={description} />
               <GatsbyImage
-                alt={elementImages[i].alt}
+                alt={elementImages[i].asset?.altText}
                 image={elementImages[i].asset.gatsbyImageData}
               />
             </>

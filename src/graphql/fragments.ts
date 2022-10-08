@@ -2,8 +2,8 @@ import { graphql } from "gatsby"
 
 export const SanityMainImageCoreFragment = graphql`
   fragment SanityMainImageCoreFragment on SanityMainImage {
-    alt
     asset {
+      altText
       gatsbyImageData
     }
   }
@@ -53,10 +53,10 @@ export const SanityProjectPreview = graphql`
       }
     }
     images {
-      alt
-      title
       asset {
         _id
+        title
+        altText
         gatsbyImageData
       }
     }

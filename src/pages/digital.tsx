@@ -23,7 +23,7 @@ export const Head: HeadFC = () => <SEO />
 export default function IndexPage({ data }: PageProps<DataProps>) {
   const projects = mapEdgesToNodes<IProject>(data.projects)
   const pageData = mapEdgesToNodes<DigitalPageData>(data.pageData)[0]
-  const heroImageAlt = pageData.digitalHero.alt
+  const heroImageAlt = pageData.digitalHero.asset?.altText
   const heroImageData = pageData.digitalHero.asset.gatsbyImageData
   const intro = pageData.intro
 

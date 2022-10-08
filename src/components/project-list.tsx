@@ -1,7 +1,7 @@
 import * as React from "react"
 import type { PortableTextBlock } from "@portabletext/types"
 import type { SanityImage } from "../types/sanity"
-import type { SecondHero, IProject } from "../types/project"
+import type { IProject } from "../types/project"
 
 import BlockContent from "./block-content"
 import { GatsbyImage } from "gatsby-plugin-image"
@@ -14,7 +14,7 @@ type ProjectProps = {
   slug: string
   briefBlocks: PortableTextBlock
   hero: SanityImage
-  secondHero: SecondHero
+  secondHero: SanityImage
   images: SanityImage[]
 }
 
@@ -24,8 +24,10 @@ export default function PreviewList({ projects }: PreviewListProps) {
   // Double Hero
   return (
     <>
-      {projects.map(({ id, name, brief, hero, secondHero, images }) => {
+      {projects.map(({ id, name, brief, images }) => {
         const slug = slugify(name)
+        const hero = images[0]
+        const secondHero = images[1]
 
         // TODO determine what flags to generate for differing compositions
         // doubleHero
@@ -60,16 +62,19 @@ function ProjectPreview({
       <div>{name}</div>
       <div>{slug}</div>
       <BlockContent blocks={briefBlocks} />
-      <GatsbyImage alt={hero.alt} image={hero?.asset?.gatsbyImageData} />
+      <GatsbyImage
+        alt={hero.asset?.altText}
+        image={hero?.asset?.gatsbyImageData}
+      />
       {secondHero && (
         <GatsbyImage
-          alt={secondHero.secondHeroImage.alt}
-          image={secondHero.secondHeroImage.asset?.gatsbyImageData}
+          alt={secondHero.asset?.altText}
+          image={secondHero.asset?.gatsbyImageData}
         />
       )}
       {images.map(i => {
         const key = i.asset._id
-        const alt = i.alt
+        const alt = i.asset?.altText
         const image = i?.asset?.gatsbyImageData
 
         return <>{image && <GatsbyImage key={key} alt={alt} image={image} />}</>
