@@ -24,8 +24,8 @@ export const Head: HeadFC = () => <SEO />
 export default function IndexPage({ data }: PageProps<DataProps>) {
   const pageData = mapEdgesToNodes<HomePageData>(data.pageData)[0]
   const leadBlocks = pageData._rawLeadParagraph
-  const heroImageData = pageData.heroBanner?.asset?.gatsbyImageData
-  const heroImageAlt = pageData.heroBanner?.asset?.altText
+  const heroImageData = pageData.heroBanner.asset?.gatsbyImageData
+  const heroImageAlt = pageData.heroBanner.asset?.altText ?? ""
   const featuredProjects = pageData.projects
 
   return (

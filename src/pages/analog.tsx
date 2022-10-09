@@ -23,7 +23,7 @@ export const Head: HeadFC = () => <SEO />
 export default function AnalogPage({ data }: PageProps<DataProps>) {
   const projects = mapEdgesToNodes<IProject>(data.projects)
   const pageData = mapEdgesToNodes<AnalogPageData>(data.pageData)[0]
-  const heroImageAlt = pageData.digitalHero.asset.altText
+  const heroImageAlt = pageData.digitalHero.asset?.altText ?? ""
   const heroImageData = pageData.digitalHero.asset.gatsbyImageData
   const intro = pageData.intro
 

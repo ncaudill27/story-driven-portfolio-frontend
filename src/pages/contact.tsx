@@ -28,7 +28,7 @@ type ContactPageData = {
 export const Head: HeadFC<DataProps> = ({ data }) => {
   const { brettPortrait } = mapEdgesToNodes(data.pageData)[0]
   const seoImage = brettPortrait.asset.publicUrl
-  const seoalt = brettPortrait.asset?.altText
+  const seoalt = brettPortrait.asset?.altText ?? ""
   console.log(seoImage)
 
   return <SEO title="Contact" imagePath={seoImage} imageAlt={seoalt} />
@@ -36,8 +36,8 @@ export const Head: HeadFC<DataProps> = ({ data }) => {
 export default function ContactPage({ data }: PageProps<DataProps>) {
   const pageData = mapEdgesToNodes<ContactPageData>(data.pageData)[0]
   const leadBlocks = pageData._rawBio
-  const heroImageData = pageData.brettPortrait?.asset?.gatsbyImageData
-  const heroImageAlt = pageData.brettPortrait?.asset?.altText
+  const heroImageData = pageData.brettPortrait.asset?.gatsbyImageData
+  const heroImageAlt = pageData.brettPortrait.asset?.altText ?? ""
   const contactPoints = pageData.contactPoints
 
   return (
