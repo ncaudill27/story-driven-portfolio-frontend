@@ -5,6 +5,13 @@ export const SanityMainImageCoreFragment = graphql`
     asset {
       altText
       gatsbyImageData
+      metadata {
+        dimensions {
+          width
+          height
+          aspectRatio
+        }
+      }
     }
   }
 `
@@ -45,12 +52,6 @@ export const SanityProjectPreview = graphql`
     hero {
       title
       ...SanityMainImageCoreFragment
-    }
-    secondHero {
-      secondHeroImage {
-        title
-        ...SanityMainImageCoreFragment
-      }
     }
     images {
       asset {

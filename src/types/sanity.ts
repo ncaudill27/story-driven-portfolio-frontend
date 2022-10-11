@@ -27,7 +27,16 @@ type SanityImageAsset = {
   title: string | null
   altText: string | null
   gatsbyImageData: IGatsbyImageData
+  metadata: SanityImageMetadata
   publicUrl: string
+}
+
+type SanityImageMetadata = {
+  dimensions: {
+    height: number
+    width: number
+    aspectRatio: number
+  }
 }
 
 export type SanityImage = {

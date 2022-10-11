@@ -1,5 +1,6 @@
 import * as React from "react"
 import { graphql } from "gatsby"
+import styled from "styled-components"
 import { mapEdgesToNodes } from "../lib/helpers"
 import type { HeadFC, PageProps } from "gatsby"
 import type { PortableTextBlock } from "@portabletext/types"
@@ -30,8 +31,14 @@ export default function IndexPage({ data }: PageProps<DataProps>) {
 
   return (
     <Layout>
-      <h1>Home Page</h1>
-      <GatsbyImage alt={heroImageAlt} image={heroImageData} />
+      <HeroWrapper>
+        <GatsbyImage
+          alt={heroImageAlt}
+          image={heroImageData}
+          loading="eager"
+          objectFit="contain"
+        />
+      </HeroWrapper>
       <BlockContent blocks={leadBlocks} />
       <ProjectList projects={featuredProjects} />
       <p>Query Result:</p>
@@ -41,6 +48,14 @@ export default function IndexPage({ data }: PageProps<DataProps>) {
     </Layout>
   )
 }
+
+const HeroWrapper = styled.div`
+  height: 85vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+`
 
 export const query = graphql`
   query IndexPageData {

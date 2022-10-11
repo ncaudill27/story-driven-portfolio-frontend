@@ -16,8 +16,6 @@ type ProjectPreviewProps = {
   briefBlocks: PortableTextBlock
   heroAltText: string
   heroImageData: IGatsbyImageData
-  secondHeroAltText: string
-  secondHeroImageData: IGatsbyImageData
   images: SanityImage[]
 }
 
@@ -30,11 +28,8 @@ export default function PreviewList({ projects }: PreviewListProps) {
       {projects.map(({ id, name, brief, images }) => {
         const slug = slugify(name)
         const hero = images[0]
-        const secondHero = images[1]
         const heroAltText = hero.asset?.altText ?? ""
         const heroImageData = hero.asset?.gatsbyImageData ?? ""
-        const secondHeroAltText = secondHero.asset?.altText ?? ""
-        const secondHeroImageData = secondHero.asset?.gatsbyImageData ?? ""
 
         // TODO determine what flags to generate for differing compositions
         // doubleHero
@@ -48,8 +43,6 @@ export default function PreviewList({ projects }: PreviewListProps) {
             slug={slug}
             heroAltText={heroAltText}
             heroImageData={heroImageData}
-            secondHeroAltText={secondHeroAltText}
-            secondHeroImageData={secondHeroImageData}
             images={images}
           />
         )
@@ -65,8 +58,6 @@ function ProjectPreview({
   briefBlocks,
   heroAltText,
   heroImageData,
-  secondHeroAltText,
-  secondHeroImageData,
 }: ProjectPreviewProps) {
   return (
     <div>
@@ -74,7 +65,6 @@ function ProjectPreview({
       <div>{slug}</div>
       <BlockContent blocks={briefBlocks} />
       <GatsbyImage alt={heroAltText} image={heroImageData} />
-      <GatsbyImage alt={secondHeroAltText} image={secondHeroImageData} />
       {images.map(i => {
         const key = i.asset._id
         const alt = i.asset?.altText ?? ""

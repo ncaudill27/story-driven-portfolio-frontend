@@ -17,7 +17,7 @@ export const Head: HeadFC<DataProps> = ({ data }) => {
   const { name, hero, brief } = data.pageData
   const description = toPlainText(brief)
   const seoImage = hero.asset.publicUrl
-  const seoAlt = hero.asset?.altText
+  const seoAlt = hero.asset?.altText ?? ""
   console.log(description)
 
   return (
@@ -32,41 +32,46 @@ export const Head: HeadFC<DataProps> = ({ data }) => {
 
 export default function ProjectTemplate({ data }: PageProps<DataProps>) {
   console.log(data.pageData)
-  const { name, brief, intro, subject, elements, images } = data.pageData
-  const leadParagraph = intro || brief
-  const leadImage = images[0]
-  const subjectImage = images[1]
+  const { name, intro, subject, elements, images } = data.pageData
+  const leadParagraph = intro
+  const { altText: leadAltText, gatsbyImageData: leadGatsbyImageData } =
+    images[0].asset
+  const {
+    altText: subjectImageAltText,
+    gatsbyImageData: subjectImageGatsbyData,
+  } = images[1].asset
   const elementImages = images.slice(2, 2 + elements.length)
 
   return (
     <Layout>
       <h1>{name}</h1>
       <>
-        <GatsbyImage
-          alt={leadImage.asset?.altText}
-          image={leadImage.asset.gatsbyImageData}
-        />
+        <GatsbyImage alt={leadAltText ?? ""} image={leadGatsbyImageData} />
         <BlockContent blocks={leadParagraph} />
       </>
       <>
         <BlockContent blocks={subject} />
         <GatsbyImage
-          alt={subjectImage.asset?.altText}
-          image={subjectImage.asset.gatsbyImageData}
+          alt={subjectImageAltText ?? ""}
+          image={subjectImageGatsbyData}
         />
       </>
       <>
         {elements.map((e, i) => {
           const name = e.name
           const description = e.description
+          const {
+            altText: imageAltText,
+            gatsbyImageData: imageGatsbyImageData,
+          } = elementImages[i].asset
 
           return (
             <>
               <h2>{name}</h2>
               <BlockContent blocks={description} />
               <GatsbyImage
-                alt={elementImages[i].asset?.altText}
-                image={elementImages[i].asset.gatsbyImageData}
+                alt={imageAltText ?? ""}
+                image={imageGatsbyImageData}
               />
             </>
           )
@@ -94,11 +99,6 @@ export const query = graphql`
         alt
         asset {
           gatsbyImageData
-        }
-      }
-      secondHero {
-        secondHeroImage {
-          ...SanityMainImageCoreFragment
         }
       }
       images {
