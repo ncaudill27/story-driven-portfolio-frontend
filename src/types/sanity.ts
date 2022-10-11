@@ -31,7 +31,7 @@ type SanityImageAsset = {
   publicUrl: string
 }
 
-type SanityImageMetadata = {
+export type SanityImageMetadata = {
   dimensions: {
     height: number
     width: number

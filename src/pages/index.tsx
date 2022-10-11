@@ -12,6 +12,7 @@ import Layout from "../containers/layout"
 import { GatsbyImage } from "gatsby-plugin-image"
 import BlockContent from "../components/block-content"
 import ProjectList from "../components/project-list"
+import HeroFullBleed from "../components/hero-full-bleed"
 
 type DataProps = SanityGQLData<HomePageData>
 type HomePageData = {
@@ -25,21 +26,34 @@ export const Head: HeadFC = () => <SEO />
 export default function IndexPage({ data }: PageProps<DataProps>) {
   const pageData = mapEdgesToNodes<HomePageData>(data.pageData)[0]
   const leadBlocks = pageData._rawLeadParagraph
-  const heroImageData = pageData.heroBanner.asset?.gatsbyImageData
-  const heroImageAlt = pageData.heroBanner.asset?.altText ?? ""
+  const { asset: heroAsset } = pageData.heroBanner
+  const {
+    altText: heroAlt,
+    gatsbyImageData: heroImageData,
+    metadata: { dimensions },
+  } = heroAsset
   const featuredProjects = pageData.projects
 
   return (
     <Layout>
-      <HeroWrapper>
-        <GatsbyImage
-          alt={heroImageAlt}
-          image={heroImageData}
-          loading="eager"
-          objectFit="contain"
-        />
-      </HeroWrapper>
-      <BlockContent blocks={leadBlocks} />
+      <HeroFullBleed
+        alt={heroAlt ?? ""}
+        imageData={heroImageData}
+        dimensions={dimensions}
+      />
+      <IntroWrapper>
+        <IntroCopyWrapper>
+          <BlockContent blocks={leadBlocks} />
+        </IntroCopyWrapper>
+        <IntroImageWrapper>
+          <GatsbyImage
+            alt={heroAlt ?? ""}
+            image={heroImageData}
+            loading="eager"
+            objectFit="contain"
+          />
+        </IntroImageWrapper>
+      </IntroWrapper>
       <ProjectList projects={featuredProjects} />
       <p>Query Result:</p>
       <pre>
@@ -49,12 +63,26 @@ export default function IndexPage({ data }: PageProps<DataProps>) {
   )
 }
 
-const HeroWrapper = styled.div`
-  height: 85vh;
+const IntroWrapper = styled.div`
+  margin-top: 180px;
+  margin-left: 120px;
+
   display: flex;
   justify-content: center;
-  align-items: center;
-  overflow: hidden;
+  isolation: isolate;
+`
+
+const IntroCopyWrapper = styled.div`
+  max-width: 705px;
+  margin-top: 94px;
+
+  font-size: 32px;
+  z-index: 1;
+`
+
+const IntroImageWrapper = styled.div`
+  margin-left: -120px;
+  width: 750px;
 `
 
 export const query = graphql`
