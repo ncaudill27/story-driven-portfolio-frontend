@@ -1,6 +1,6 @@
 import * as React from "react"
+import styled from "styled-components"
 import { graphql } from "gatsby"
-import { GatsbyImage } from "gatsby-plugin-image"
 import { toPlainText } from "@portabletext/react"
 import type { HeadFC, PageProps } from "gatsby"
 import type { IProject } from "../types/project"
@@ -8,17 +8,20 @@ import type { IProject } from "../types/project"
 import SEO from "../components/seo"
 import Layout from "../components/layout"
 import BlockContent from "../components/block-content"
+import { GatsbyImage } from "gatsby-plugin-image"
+import Image from "../components/image"
+import { useImages } from "../hooks/use-images"
 
 type DataProps = {
   pageData: IProject
 }
 
 export const Head: HeadFC<DataProps> = ({ data }) => {
-  const { name, hero, brief } = data.pageData
+  const { name, images, brief } = data.pageData
+  const { hero } = useImages(images)
   const description = toPlainText(brief)
   const seoImage = hero.asset.publicUrl
   const seoAlt = hero.asset?.altText ?? ""
-  console.log(description)
 
   return (
     <SEO
@@ -33,29 +36,21 @@ export const Head: HeadFC<DataProps> = ({ data }) => {
 export default function ProjectTemplate({ data }: PageProps<DataProps>) {
   console.log(data.pageData)
   const { name, intro, subject, elements, images } = data.pageData
-  const leadParagraph = intro
-  const { altText: leadAltText, gatsbyImageData: leadGatsbyImageData } =
-    images[0].asset
-  const {
-    altText: subjectImageAltText,
-    gatsbyImageData: subjectImageGatsbyData,
-  } = images[1].asset
-  const elementImages = images.slice(2, 2 + elements.length)
+  const { hero, subjectImage, elementImages } = useImages(images)
 
   return (
     <Layout>
-      <h1>{name}</h1>
-      <>
-        <GatsbyImage alt={leadAltText ?? ""} image={leadGatsbyImageData} />
-        <BlockContent blocks={leadParagraph} />
-      </>
-      <>
-        <BlockContent blocks={subject} />
-        <GatsbyImage
-          alt={subjectImageAltText ?? ""}
-          image={subjectImageGatsbyData}
-        />
-      </>
+      <HeroSectionWrapper>
+        <HeroCopyWrapper>
+          <Title>{name}</Title>
+          <BlockContent blocks={intro} />
+        </HeroCopyWrapper>
+        <HeroImageWrapper>
+          <Image image={hero} />
+        </HeroImageWrapper>
+      </HeroSectionWrapper>
+      <BlockContent blocks={subject} />
+
       <>
         {elements.map((e, i) => {
           const name = e.name
@@ -77,12 +72,32 @@ export default function ProjectTemplate({ data }: PageProps<DataProps>) {
           )
         })}
       </>
-      <pre>
-        <code>{JSON.stringify(data.pageData, null, 2)}</code>
-      </pre>
     </Layout>
   )
 }
+
+const HeroSectionWrapper = styled.div`
+  margin-top: 180px;
+  padding-left: 120px;
+  padding-right: 132px;
+  display: flex;
+  justify-content: space-between;
+`
+
+const HeroCopyWrapper = styled.div`
+  margin-top: 80px;
+  max-width: 583px;
+`
+
+const Title = styled.h1`
+  font-size: ${92 / 16}rem;
+`
+
+const HeroImageWrapper = styled.div`
+  width: 720px;
+  height: 810px;
+`
+
 export const query = graphql`
   query ProjectTemplateData($id: String!) {
     pageData: sanityProject(id: { eq: $id }) {
@@ -94,9 +109,6 @@ export const query = graphql`
       elements {
         name
         description: _rawDescription
-      }
-      hero {
-        ...SanityImageCoreFragment
       }
       images {
         ...SanityImageCoreFragment
