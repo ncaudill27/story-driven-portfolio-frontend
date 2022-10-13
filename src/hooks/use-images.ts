@@ -21,9 +21,9 @@ function randomTwo(images: SanityImage[]) {
 export function useImages(images: SanityImage[]) {
   images = images.filter(onlyUniqueAndValid)
   const hero = images[0]
-  const briefImages = randomTwo(images)
+  const previewImages = randomTwo(images)
   const subjectImage = images[1]
   const elementImages = images.slice(2)
 
-  return { hero, briefImages, subjectImage, elementImages }
+  return { hero, previewImages, subjectImage, elementImages }
 }

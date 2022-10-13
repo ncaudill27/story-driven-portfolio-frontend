@@ -32,7 +32,7 @@ export default function PreviewList({ projects }: PreviewListProps) {
       {projects.map(({ id, name, brief, mediaType, images = [] }) => {
         const slug = slugify(name)
         const path = usePath(mediaType, slug)
-        const { hero, briefImages } = useImages(images)
+        const { hero, previewImages } = useImages(images)
 
         // TODO determine what flags to generate for differing compositions
         // doubleHero
@@ -46,7 +46,7 @@ export default function PreviewList({ projects }: PreviewListProps) {
             section={mediaType}
             path={path}
             hero={hero}
-            images={briefImages}
+            images={previewImages}
           />
         )
       })}
@@ -61,6 +61,8 @@ function ProjectPreview({
   images,
   briefBlocks,
 }: ProjectPreviewProps) {
+  const [firstPreview, secondPreview] = images
+
   return (
     <PreviewWrapper>
       <Title>{name}</Title>
@@ -72,14 +74,36 @@ function ProjectPreview({
           <Link to="TODO add gallery">Gallery</Link>
         </IntroLinkWrapper>
       </PreviewBriefWrapper>
-      {images.map(i => {
-        const key = i.asset?._id
-
-        return <Image key={key} image={i} />
-      })}
+      <BriefImageWrapper>
+        <FirstPreviewImageWrapper>
+          <Image image={firstPreview} />
+        </FirstPreviewImageWrapper>
+        <SecondPreviewImageWrapper>
+          <Image image={secondPreview} />
+        </SecondPreviewImageWrapper>
+      </BriefImageWrapper>
     </PreviewWrapper>
   )
 }
+
+const BriefImageWrapper = styled.div`
+  --padding-inline: 120px;
+  padding-left: calc(var(--padding-inline) + 56px);
+  padding-right: calc(var(--padding-inline) - 80px);
+
+  display: flex;
+  justify-content: space-between;
+`
+
+const FirstPreviewImageWrapper = styled.div`
+  margin-top: -24px;
+  width: 504px;
+`
+const SecondPreviewImageWrapper = styled.div`
+  margin-top: 152px;
+  width: 472px;
+  height: 609px;
+`
 
 const PreviewWrapper = styled.div`
   margin-top: 180px;
@@ -98,7 +122,7 @@ const PreviewBriefWrapper = styled.div`
   padding-inline: 120px; /* TODO find fliud value that maxes at 120px */
 
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
 
   font-size: ${32 / 16}rem;
 `
