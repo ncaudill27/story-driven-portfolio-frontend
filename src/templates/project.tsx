@@ -8,9 +8,9 @@ import type { IProject } from "../types/project"
 import SEO from "../components/seo"
 import Layout from "../components/layout"
 import BlockContent from "../components/block-content"
-import { GatsbyImage } from "gatsby-plugin-image"
 import Image from "../components/image"
 import { useImages } from "../hooks/use-images"
+import ElementSection from "../components/element"
 
 type DataProps = {
   pageData: IProject
@@ -34,9 +34,10 @@ export const Head: HeadFC<DataProps> = ({ data }) => {
 }
 
 export default function ProjectTemplate({ data }: PageProps<DataProps>) {
-  console.log(data.pageData)
   const { name, intro, subject, elements, images } = data.pageData
   const { hero, subjectImage, elementImages } = useImages(images)
+
+  console.log(elements)
 
   return (
     <Layout>
@@ -49,28 +50,18 @@ export default function ProjectTemplate({ data }: PageProps<DataProps>) {
           <Image image={hero} />
         </HeroImageWrapper>
       </HeroSectionWrapper>
-      <BlockContent blocks={subject} />
-
+      <SubjectSectionWrapper>
+        <SubjectImageWrapper>
+          <Image image={subjectImage} />
+        </SubjectImageWrapper>
+        <SubjectCopyWrapper>
+          <BlockContent blocks={subject} />
+        </SubjectCopyWrapper>
+      </SubjectSectionWrapper>
       <>
-        {elements.map((e, i) => {
-          const name = e.name
-          const description = e.description
-          const {
-            altText: imageAltText,
-            gatsbyImageData: imageGatsbyImageData,
-          } = elementImages[i].asset
-
-          return (
-            <>
-              <h2>{name}</h2>
-              <BlockContent blocks={description} />
-              <GatsbyImage
-                alt={imageAltText ?? ""}
-                image={imageGatsbyImageData}
-              />
-            </>
-          )
-        })}
+        {elements.map((e, i) => (
+          <ElementSection element={e} index={i} image={elementImages[i]} />
+        ))}
       </>
     </Layout>
   )
@@ -97,6 +88,22 @@ const HeroImageWrapper = styled.div`
   width: 720px;
   height: 810px;
 `
+
+const SubjectSectionWrapper = styled.div`
+  margin-top: 180px;
+  padding-left: 40px;
+  padding-right: 120px;
+
+  display: flex;
+  justify-content: space-between;
+  gap: 80px;
+`
+
+const SubjectImageWrapper = styled.div`
+  margin-top: 32px;
+`
+
+const SubjectCopyWrapper = styled.div``
 
 export const query = graphql`
   query ProjectTemplateData($id: String!) {

@@ -10,8 +10,10 @@ export interface IProject {
   mediaType: string
   hero: SanityImage
   images: SanityImage[]
-  elements: {
-    name: string
-    description: PortableTextBlock
-  }[]
+  elements: Element[]
+}
+
+export type Element = {
+  name: string
+  description: PortableTextBlock
 }
