@@ -4,13 +4,13 @@ import type { PortableTextBlock } from "@portabletext/types"
 import type { SanityImage } from "../types/sanity"
 import type { IProject } from "../types/project"
 
-import BlockContent from "./block-content"
 import { slugify } from "../lib/string-utils"
 import { Link } from "gatsby"
 import { useImages } from "../hooks/use-images"
 import { usePath } from "../hooks/use-path"
 import Image from "./image"
-import IntroCopyWrapper from "./intro-copy-wrapper"
+import IntroCopy from "./intro-copy-wrapper"
+import HeroFullBleed from "./hero-full-bleed"
 
 type PreviewListProps = { projects: IProject[] }
 
@@ -64,11 +64,13 @@ function ProjectPreview({
   return (
     <PreviewWrapper>
       <Title>{name}</Title>
-      <Image image={hero} />
+      <HeroFullBleed image={hero} />
       <PreviewBriefWrapper>
-        <IntroCopyWrapper>
-          <BlockContent blocks={briefBlocks} />
-        </IntroCopyWrapper>
+        <IntroCopy blocks={briefBlocks} />
+        <IntroLinkWrapper>
+          <Link to={path}>See shoot</Link>
+          <Link to="TODO add gallery">Gallery</Link>
+        </IntroLinkWrapper>
       </PreviewBriefWrapper>
       {images.map(i => {
         const key = i.asset?._id
@@ -96,6 +98,13 @@ const PreviewBriefWrapper = styled.div`
   padding-inline: 120px; /* TODO find fliud value that maxes at 120px */
 
   display: flex;
+  justify-content: space-around;
 
   font-size: ${32 / 16}rem;
+`
+
+const IntroLinkWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
 `

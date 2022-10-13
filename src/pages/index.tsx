@@ -9,11 +9,10 @@ import type { IProject } from "../types/project"
 
 import SEO from "../components/seo"
 import Layout from "../containers/layout"
-import BlockContent from "../components/block-content"
 import ProjectList from "../components/project-list"
 import HeroFullBleed from "../components/hero-full-bleed"
 import Image from "../components/image"
-import IntroCopyWrapper from "../components/intro-copy-wrapper"
+import IntroCopy from "../components/intro-copy-wrapper"
 
 type DataProps = SanityGQLData<HomePageData>
 type HomePageData = {
@@ -32,9 +31,7 @@ export default function IndexPage({ data }: PageProps<DataProps>) {
     <Layout>
       <HeroFullBleed image={hero} />
       <IntroWrapper>
-        <IntroCopyWrapper extraMargin={94}>
-          <BlockContent blocks={leadBlocks} />
-        </IntroCopyWrapper>
+        <IntroCopy blocks={leadBlocks} extraMargin={94} />
         <IntroImageWrapper>
           <Image image={hero} objectFit="contain" />
         </IntroImageWrapper>
