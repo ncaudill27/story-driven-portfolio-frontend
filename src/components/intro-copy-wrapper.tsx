@@ -1,18 +1,17 @@
 import * as React from "react"
 import styled from "styled-components"
+import BlockContent from "./block-content"
+import type { PortableTextBlock } from "@portabletext/types"
 
-interface IntroCopyWrapperProps {
-  children: JSX.Element
+interface IntroCopyProps {
+  blocks: PortableTextBlock
   extraMargin?: number
 }
 
-export default function IntroCopyWrapper({
-  children,
-  extraMargin,
-}: IntroCopyWrapperProps) {
+export default function IntroCopy({ blocks, extraMargin }: IntroCopyProps) {
   return (
     <Wrapper style={{ "--extra-margin": extraMargin + "px" }}>
-      {children}
+      <BlockContent blocks={blocks} />
     </Wrapper>
   )
 }
