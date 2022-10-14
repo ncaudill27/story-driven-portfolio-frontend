@@ -18,14 +18,20 @@ export default function ElementSection({
   image,
 }: ElementSectionProps) {
   const { name, description } = element
+  const isEven = index % 2 == 0
 
   // create two components EvenElement & OddElement and render based on index
   return (
-    <RootWrapper>
-      <ImageWrapper>
+    <RootWrapper
+      style={{
+        "--flex-direction": isEven ? "row-reverse" : "row",
+        "--padding-left": isEven ? "142px" : "80px",
+      }}
+    >
+      <ImageWrapper style={{ "--margin-top": isEven ? "60px" : "120px" }}>
         <Image image={image} />
       </ImageWrapper>
-      <CopyWrapper>
+      <CopyWrapper style={{ "--margin-right": isEven ? "-12px" : "0" }}>
         <Name>{name}</Name>
         <BlockContent blocks={description} />
       </CopyWrapper>
@@ -33,16 +39,48 @@ export default function ElementSection({
   )
 }
 
-const RootWrapper = styled.div`
+interface Root {
+  style: {
+    "--flex-direction": "row-reverse" | "row"
+    "--padding-left": string
+  }
+}
+
+const RootWrapper = styled.div<Root>`
+  margin-top: 180px;
+  padding-left: var(--padding-left);
+  padding-right: 136px;
+
   display: flex;
   flex-direction: var(--flex-direction);
+  justify-content: center;
+
+  isolation: isolate;
 `
 
-const CopyWrapper = styled.div``
+interface Copy {
+  style: {
+    "--margin-right": string
+  }
+}
 
-const ImageWrapper = styled.div``
+const CopyWrapper = styled.div<Copy>`
+  min-width: 568px;
+  margin-right: var(--margin-right);
+
+  z-index: 1;
+`
+
+interface Image {
+  style: { "--margin-top": "60px" | "120px" }
+}
+
+const ImageWrapper = styled.div<Image>`
+  margin-top: var(--margin-top);
+  margin-left: -176px;
+`
 
 const Name = styled.h2`
-  font-size: 32px;
+  font-size: ${52 / 16}rem;
   font-weight: bold;
 `
