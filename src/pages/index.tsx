@@ -65,7 +65,7 @@ export default function IndexPage({ data }: PageProps<DataProps>) {
 
 const IntroWrapper = styled.div`
   margin-top: 180px;
-  margin-left: 120px;
+  padding-inline: 120px; /* TODO find fliud value that maxes at 120px */
 
   display: flex;
   justify-content: center;
@@ -81,7 +81,7 @@ const IntroCopyWrapper = styled.div`
 `
 
 const IntroImageWrapper = styled.div`
-  margin-left: -120px;
+  margin-left: -90px;
   width: 750px;
 `
 

@@ -1,4 +1,5 @@
 import * as React from "react"
+import styled from "styled-components"
 import type { PortableTextBlock } from "@portabletext/types"
 import type { SanityImage } from "../types/sanity"
 import type { IProject } from "../types/project"
@@ -7,12 +8,14 @@ import type { IGatsbyImageData } from "gatsby-plugin-image"
 import BlockContent from "./block-content"
 import { GatsbyImage } from "gatsby-plugin-image"
 import { slugify } from "../lib/string-utils"
+import { Link } from "gatsby"
 
 type PreviewListProps = { projects: IProject[] }
 
 type ProjectPreviewProps = {
   name: string
   slug: string
+  section: string
   briefBlocks: PortableTextBlock
   heroAltText: string
   heroImageData: IGatsbyImageData
@@ -25,7 +28,7 @@ export default function PreviewList({ projects }: PreviewListProps) {
   // Double Hero
   return (
     <>
-      {projects.map(({ id, name, brief, images }) => {
+      {projects.map(({ id, name, brief, mediaType, images }) => {
         const slug = slugify(name)
         const hero = images[0]
         const heroAltText = hero.asset?.altText ?? ""
@@ -40,6 +43,7 @@ export default function PreviewList({ projects }: PreviewListProps) {
             key={id}
             briefBlocks={brief}
             name={name}
+            section={mediaType}
             slug={slug}
             heroAltText={heroAltText}
             heroImageData={heroImageData}
@@ -54,24 +58,46 @@ export default function PreviewList({ projects }: PreviewListProps) {
 function ProjectPreview({
   name,
   slug,
+  section,
   images,
   briefBlocks,
   heroAltText,
   heroImageData,
 }: ProjectPreviewProps) {
+  const path = `/${section}/${slug}/`
+
   return (
-    <div>
-      <div>{name}</div>
-      <div>{slug}</div>
-      <BlockContent blocks={briefBlocks} />
+    <PreviewWrapper to={path}>
+      <Title>{name}</Title>
       <GatsbyImage alt={heroAltText} image={heroImageData} />
-      {images.map(i => {
-        const key = i.asset._id
-        const alt = i.asset?.altText ?? ""
-        const image = i?.asset?.gatsbyImageData
+      {images.map(({ asset }) => {
+        const key = asset._id
+        const alt = asset?.altText ?? ""
+        const image = asset?.gatsbyImageData
 
         return <GatsbyImage key={key} alt={alt} image={image} />
       })}
-    </div>
+      <PreviewBriefWrapper>
+        <BlockContent blocks={briefBlocks} />
+      </PreviewBriefWrapper>
+    </PreviewWrapper>
   )
 }
+
+const PreviewWrapper = styled(Link)`
+  margin-top: 180px;
+  color: inherit;
+  text-decoration: none;
+`
+
+const Title = styled.h2`
+  font-size: ${92 / 16}rem;
+  text-align: center;
+  margin-bottom: 80px;
+`
+
+const PreviewBriefWrapper = styled.div`
+  margin-top: 120px;
+  padding-inline: 120px; /* TODO find fliud value that maxes at 120px */
+  font-size: ${32 / 16}rem;
+`

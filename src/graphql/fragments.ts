@@ -46,6 +46,8 @@ export const SanityProjectPreview = graphql`
     id
     brief: _rawBrief
     name
+    mediaType
+    # TODO update slug on sanity graphql
     slug {
       current
     }
