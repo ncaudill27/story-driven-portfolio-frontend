@@ -8,9 +8,9 @@ type LayoutContainerProps = {
   children: ReactElement | ReactElement[]
 }
 
-interface IModalContext {
+export interface IModalContext {
   modal: string | null | undefined
-  setModal: (newValue: string, updateType?: UrlUpdateType) => void
+  setModal: (newValue: string | null, updateType?: UrlUpdateType) => void
 }
 
 export const ModalContext = createContext<IModalContext>({
@@ -19,7 +19,7 @@ export const ModalContext = createContext<IModalContext>({
 })
 
 function LayoutContainer(props: LayoutContainerProps) {
-  const [modal, setModal] = useQueryParam<string>("modal")
+  const [modal, setModal] = useQueryParam<string | null>("modal")
   const modalValues = useMemo(() => ({ modal, setModal }), [modal, setModal])
 
   console.log("\n#####\n", "MODAL: ", modal, "\n#####\n")
