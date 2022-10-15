@@ -45,15 +45,19 @@ const createProjectPages: CreatePagesFunction<IProject> = async (
     const id = p.id
     const slug = slugify(p.name)
     const section = p.mediaType
-    const path = `/${section}/${slug}/`
+    const projectPath = `/${section}/${slug}/`
+    const galleryPath = projectPath + "gallery/"
 
-    if (slug) {
-      createPage({
-        path,
-        component: pathUtil.resolve("./src/templates/project.tsx"),
-        context: { id, slug },
-      })
-    }
+    createPage({
+      path: projectPath,
+      component: pathUtil.resolve("./src/templates/project.tsx"),
+      context: { id, slug },
+    })
+    createPage({
+      path: galleryPath,
+      component: pathUtil.resolve("./src/templates/gallery.tsx"),
+      context: { id },
+    })
   })
 }
 

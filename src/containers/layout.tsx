@@ -22,7 +22,6 @@ function LayoutContainer(props: LayoutContainerProps) {
   const [modal, setModal] = useQueryParam<string | null>("modal")
   const modalValues = useMemo(() => ({ modal, setModal }), [modal, setModal])
 
-  console.log("\n#####\n", "MODAL: ", modal, "\n#####\n")
   return (
     <ModalContext.Provider value={modalValues}>
       <Layout {...props} />

@@ -25,5 +25,5 @@ export function useImages(images: SanityImage[]) {
   const subjectImage = images[1]
   const elementImages = images.slice(2)
 
-  return { hero, previewImages, subjectImage, elementImages }
+  return { hero, previewImages, subjectImage, elementImages, images }
 }
