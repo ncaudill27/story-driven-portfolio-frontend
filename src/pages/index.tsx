@@ -92,7 +92,7 @@ export const query = graphql`
         node {
           _rawLeadParagraph
           heroBanner {
-            ...SanityMainImageCoreFragment
+            ...SanityImageCoreFragment
           }
           projects: featuredWork {
             ...SanityProjectPreview

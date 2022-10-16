@@ -69,7 +69,7 @@ export const query = graphql`
         node {
           _rawBio
           brettPortrait {
-            ...SanityMainImageCoreFragment
+            ...SanityImageCoreFragment
           }
           contactPoints {
             email

@@ -96,13 +96,10 @@ export const query = graphql`
         description: _rawDescription
       }
       hero {
-        alt
-        asset {
-          gatsbyImageData
-        }
+        ...SanityImageCoreFragment
       }
       images {
-        ...SanityMainImageCoreFragment
+        ...SanityImageCoreFragment
       }
     }
   }

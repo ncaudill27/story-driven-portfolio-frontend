@@ -24,15 +24,13 @@ const createProjectPages: CreatePagesFunction<IProject> = async (
 ) => {
   const result = await graphql(`
     query AllProjects {
-      projects: allSanityProject(filter: { slug: { current: { ne: null } } }) {
+      projects: allSanityProject {
         edges {
           node {
             id
             name
             mediaType
-            slug {
-              current
-            }
+            slug
           }
         }
       }

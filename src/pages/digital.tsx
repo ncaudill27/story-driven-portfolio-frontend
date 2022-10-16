@@ -45,15 +45,12 @@ export default function DigitalPage({ data }: PageProps<DataProps>) {
 
 export const query = graphql`
   query DigitalIndexPageData {
-    pageData: allSanityCollectionPages {
+    pageData: allSanityProject(filter: { mediaType: { eq: "digital" } }) {
       edges {
         node {
-          intro: _rawDigitalIntro
-          digitalHero {
-            alt
-            asset {
-              gatsbyImageData
-            }
+          intro: _rawIntro
+          hero {
+            ...SanityImageCoreFragment
           }
         }
       }

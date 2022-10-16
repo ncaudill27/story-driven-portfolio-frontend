@@ -45,15 +45,12 @@ export default function FilmPage({ data }: PageProps<DataProps>) {
 
 export const query = graphql`
   query FilmIndexPageData {
-    pageData: allSanityCollectionPages {
+    pageData: allSanityProject(filter: { mediaType: { eq: "film" } }) {
       edges {
         node {
-          intro: _rawFilmIntro
-          digitalHero {
-            alt
-            asset {
-              gatsbyImageData
-            }
+          intro: _rawIntro
+          hero {
+            ...SanityImageCoreFragment
           }
         }
       }

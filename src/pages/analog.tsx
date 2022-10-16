@@ -45,15 +45,12 @@ export default function AnalogPage({ data }: PageProps<DataProps>) {
 
 export const query = graphql`
   query AnalogIndexPageData {
-    pageData: allSanityCollectionPages {
+    pageData: allSanityProject(filter: { mediaType: { eq: "analog" } }) {
       edges {
         node {
-          intro: _rawDigitalIntro
-          digitalHero {
-            alt
-            asset {
-              gatsbyImageData
-            }
+          intro: _rawIntro
+          hero {
+            ...SanityImageCoreFragment
           }
         }
       }

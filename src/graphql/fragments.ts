@@ -1,7 +1,7 @@
 import { graphql } from "gatsby"
 
-export const SanityMainImageCoreFragment = graphql`
-  fragment SanityMainImageCoreFragment on SanityMainImage {
+export const SanityImageCoreFragment = graphql`
+  fragment SanityImageCoreFragment on SanityImage {
     asset {
       altText
       gatsbyImageData
@@ -16,8 +16,8 @@ export const SanityMainImageCoreFragment = graphql`
   }
 `
 
-export const SanityMainImageCropFragment = graphql`
-  fragment SanityMainImageCropFragment on SanityMainImage {
+export const SanityImageCropFragment = graphql`
+  fragment SanityImageCropFragment on SanityImage {
     crop {
       _key
       _type
@@ -28,8 +28,8 @@ export const SanityMainImageCropFragment = graphql`
     }
   }
 `
-export const SanityMainImageHotspotFragment = graphql`
-  fragment SanityMainImageHotspotFragment on SanityMainImage {
+export const SanityImageHotspotFragment = graphql`
+  fragment SanityImageHotspotFragment on SanityImage {
     hotspot {
       _key
       _type
@@ -48,13 +48,7 @@ export const SanityProjectPreview = graphql`
     name
     mediaType
     # TODO update slug on sanity graphql
-    slug {
-      current
-    }
-    hero {
-      title
-      ...SanityMainImageCoreFragment
-    }
+    slug
     images {
       asset {
         _id
