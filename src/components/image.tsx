@@ -4,7 +4,7 @@ import type { GatsbyImageProps } from "gatsby-plugin-image"
 import { useAsset } from "../hooks/use-asset"
 import type { SanityImage } from "../types/sanity"
 
-interface ImageProps extends Omit<GatsbyImageProps, "image" | "alt"> {
+export interface ImageProps extends Omit<GatsbyImageProps, "image" | "alt"> {
   image: SanityImage
 }
 

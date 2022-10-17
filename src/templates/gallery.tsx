@@ -6,9 +6,11 @@ import type { HeadFC, PageProps } from "gatsby"
 import type { IProject } from "../types/project"
 
 import SEO from "../components/seo"
-import Image from "../components/image"
+import Image, { ImageProps } from "../components/image"
 import { useImages } from "../hooks/use-images"
 import GlobalStyles from "../styles/global-styles"
+import { useGalleryHeight } from "../hooks/use-gallery-height"
+import boundingClientRect from "../lib/bounding-client-rect"
 
 type DataProps = {
   pageData: IProject
@@ -31,17 +33,37 @@ export const Head: HeadFC<DataProps> = ({ data }) => {
   )
 }
 
+type SetFn = React.Dispatch<React.SetStateAction<number[]>>
+type GalleryImageProps = ImageProps & { set: SetFn }
+function GalleryImage({ image, set }: GalleryImageProps) {
+  const imageEl = React.useCallback(async (node: HTMLElement | null) => {
+    console.log("NODE: ", node)
+    if (node !== null) {
+      const { height } = await boundingClientRect(node)
+      set(prev => [...prev, height])
+    }
+  }, [])
+  return (
+    <GalleryItem ref={imageEl}>
+      <StyledImage image={image} />
+    </GalleryItem>
+  )
+}
+
 export default function GalleryTemplate({ data }: PageProps<DataProps>) {
   const { images: rawImages } = data.pageData
   const { images } = useImages(rawImages)
+  const galleryHeight = useGalleryHeight(images)
+  console.log("Gallery height: ", galleryHeight)
+  const [imageHeightArray, setImageHeightArray] = React.useState<number[]>([])
+
+  console.log(imageHeightArray)
 
   return (
     <GalleryWrapper>
       <GlobalStyles />
       {images.map(i => (
-        <GalleryItem>
-          <GalleryImage image={i} />
-        </GalleryItem>
+        <GalleryImage image={i} set={setImageHeightArray} />
       ))}
     </GalleryWrapper>
   )
@@ -79,7 +101,7 @@ const GalleryItem = styled.li`
   }
 `
 
-const GalleryImage = styled(Image)`
+const StyledImage = styled(Image)`
   margin-bottom: var(--gap);
 `
 
