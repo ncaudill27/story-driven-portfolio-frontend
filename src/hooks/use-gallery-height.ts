@@ -1,12 +1,13 @@
 import { SanityImage } from "../types/sanity"
 
-export function useGalleryHeight(images: SanityImage[]) {
+export function useGalleryHeight(heights: number[]) {
+  console.log("HEIGHTS ARRAY: ", heights)
   let col1Height = 0,
     col2Height = 0,
     col3Height = 0
 
-  for (let i = 0; i < images.length; i++) {
-    const imageHeight = images[0].asset.metadata.dimensions.height
+  for (let i = 0; i < heights.length; i++) {
+    const imageHeight = heights[0]
     const columnKey = i % 3
 
     switch (columnKey) {

@@ -43,9 +43,10 @@ function GalleryImage({ image, set }: GalleryImageProps) {
       set(prev => [...prev, height])
     }
   }, [])
+
   return (
     <GalleryItem ref={imageEl}>
-      <StyledImage image={image} />
+      <StyledGalleryImage image={image} />
     </GalleryItem>
   )
 }
@@ -53,14 +54,13 @@ function GalleryImage({ image, set }: GalleryImageProps) {
 export default function GalleryTemplate({ data }: PageProps<DataProps>) {
   const { images: rawImages } = data.pageData
   const { images } = useImages(rawImages)
-  const galleryHeight = useGalleryHeight(images)
-  console.log("Gallery height: ", galleryHeight)
   const [imageHeightArray, setImageHeightArray] = React.useState<number[]>([])
-
+  const galleryHeight = useGalleryHeight(imageHeightArray)
+  console.log("Gallery height: ", galleryHeight)
   console.log(imageHeightArray)
 
   return (
-    <GalleryWrapper>
+    <GalleryWrapper style={{ "--height": galleryHeight + "px" }}>
       <GlobalStyles />
       {images.map(i => (
         <GalleryImage image={i} set={setImageHeightArray} />
@@ -69,7 +69,12 @@ export default function GalleryTemplate({ data }: PageProps<DataProps>) {
   )
 }
 
-const GalleryWrapper = styled.ul`
+interface Gallery {
+  style: {
+    "--height": string
+  }
+}
+const GalleryWrapper = styled.ul<Gallery>`
   --gap: 2%;
   padding: var(--gap);
   display: flex;
@@ -77,7 +82,7 @@ const GalleryWrapper = styled.ul`
   align-content: space-between;
   /* Your container needs a fixed height, and it 
    * needs to be taller than your tallest column. */
-  height: 2000px;
+  height: var(--height);
   &::before,
   &::after {
     content: "";
@@ -101,7 +106,7 @@ const GalleryItem = styled.li`
   }
 `
 
-const StyledImage = styled(Image)`
+const StyledGalleryImage = styled(Image)`
   margin-bottom: var(--gap);
 `
 
