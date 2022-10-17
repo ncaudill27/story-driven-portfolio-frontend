@@ -60,10 +60,10 @@ export default function GalleryTemplate({ data }: PageProps<DataProps>) {
   console.log(imageHeightArray)
 
   return (
-    <GalleryWrapper style={{ "--height": galleryHeight + "px" }}>
+    <GalleryWrapper style={{ "--height": galleryHeight * 1.02 + "px" }}>
       <GlobalStyles />
       {images.map(i => (
-        <GalleryImage image={i} set={setImageHeightArray} />
+        <GalleryImage key={i.asset._id} image={i} set={setImageHeightArray} />
       ))}
     </GalleryWrapper>
   )
