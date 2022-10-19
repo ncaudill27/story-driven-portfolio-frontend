@@ -9,10 +9,11 @@ import type { IProject } from "../types/project"
 
 import SEO from "../components/seo"
 import Layout from "../containers/layout"
-import { GatsbyImage } from "gatsby-plugin-image"
 import BlockContent from "../components/block-content"
 import ProjectList from "../components/project-list"
 import HeroFullBleed from "../components/hero-full-bleed"
+import Image from "../components/image"
+import IntroCopyWrapper from "../components/intro-copy-wrapper"
 
 type DataProps = SanityGQLData<HomePageData>
 type HomePageData = {
@@ -24,41 +25,24 @@ type HomePageData = {
 // eslint-disable-next-line
 export const Head: HeadFC = () => <SEO />
 export default function IndexPage({ data }: PageProps<DataProps>) {
-  const pageData = mapEdgesToNodes<HomePageData>(data.pageData)[0]
-  const leadBlocks = pageData._rawLeadParagraph
-  const { asset: heroAsset } = pageData.heroBanner
-  const {
-    altText: heroAlt,
-    gatsbyImageData: heroImageData,
-    metadata: { dimensions },
-  } = heroAsset
-  const featuredProjects = pageData.projects
+  const { _rawLeadParagraph, heroBanner, projects } =
+    mapEdgesToNodes<HomePageData>(data.pageData)[0]
+  const leadBlocks = _rawLeadParagraph
+  const hero = heroBanner
+  const featuredProjects = projects
 
   return (
     <Layout>
-      <HeroFullBleed
-        alt={heroAlt ?? ""}
-        imageData={heroImageData}
-        dimensions={dimensions}
-      />
+      <HeroFullBleed image={hero} />
       <IntroWrapper>
-        <IntroCopyWrapper>
+        <IntroCopyWrapper extraMargin={94}>
           <BlockContent blocks={leadBlocks} />
         </IntroCopyWrapper>
         <IntroImageWrapper>
-          <GatsbyImage
-            alt={heroAlt ?? ""}
-            image={heroImageData}
-            loading="eager"
-            objectFit="contain"
-          />
+          <Image image={hero} loading="eager" objectFit="contain" />
         </IntroImageWrapper>
       </IntroWrapper>
       <ProjectList projects={featuredProjects} />
-      <p>Query Result:</p>
-      <pre>
-        <code>{JSON.stringify(pageData, null, 2)}</code>
-      </pre>
     </Layout>
   )
 }
@@ -70,14 +54,6 @@ const IntroWrapper = styled.div`
   display: flex;
   justify-content: center;
   isolation: isolate;
-`
-
-const IntroCopyWrapper = styled.div`
-  max-width: 705px;
-  margin-top: 94px;
-
-  font-size: 32px;
-  z-index: 1;
 `
 
 const IntroImageWrapper = styled.div`

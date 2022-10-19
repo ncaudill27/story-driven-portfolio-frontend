@@ -33,6 +33,7 @@ export default createGlobalStyle`
     -webkit-font-smoothing: antialiased;
     background-color: ${BLUE[100]};
     color: ${BLUE[800]};
+    font-size: 32px;
   }
 
   img, picture, video, canvas, svg {

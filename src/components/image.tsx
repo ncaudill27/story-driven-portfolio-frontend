@@ -1,9 +1,10 @@
 import * as React from "react"
 import { GatsbyImage } from "gatsby-plugin-image"
+import type { GatsbyImageProps } from "gatsby-plugin-image"
 import { useAsset } from "../hooks/use-asset"
 import type { SanityImage } from "../types/sanity"
 
-type ImageProps = {
+interface ImageProps extends Omit<GatsbyImageProps, "image" | "alt"> {
   image: SanityImage
 }
 

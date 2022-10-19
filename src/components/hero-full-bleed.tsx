@@ -1,30 +1,18 @@
 import * as React from "react"
-import { GatsbyImage } from "gatsby-plugin-image"
 import styled from "styled-components"
-import type { IGatsbyImageData } from "gatsby-plugin-image"
-import type { SanityImageMetadata } from "../types/sanity"
+import Image from "./image"
+import type { SanityImage } from "../types/sanity"
 
 type HeroFullBleedProps = {
-  alt: string
-  imageData: IGatsbyImageData
-  dimensions: SanityImageMetadata["dimensions"]
+  image: SanityImage
 }
 
-export default function HeroFullBleed({
-  alt,
-  imageData,
-  dimensions,
-}: HeroFullBleedProps) {
+export default function HeroFullBleed({ image }: HeroFullBleedProps) {
   // TODO determine if dimensions needed
 
   return (
     <HeroWrapper>
-      <GatsbyImage
-        alt={alt}
-        image={imageData}
-        loading="eager"
-        objectFit="contain"
-      />
+      <Image image={image} loading="eager" objectFit="contain" />
     </HeroWrapper>
   )
 }

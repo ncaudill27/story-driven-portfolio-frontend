@@ -10,6 +10,7 @@ import { Link } from "gatsby"
 import { useImages } from "../hooks/use-images"
 import { usePath } from "../hooks/use-path"
 import Image from "./image"
+import IntroCopyWrapper from "./intro-copy-wrapper"
 
 type PreviewListProps = { projects: IProject[] }
 
@@ -61,11 +62,13 @@ function ProjectPreview({
   briefBlocks,
 }: ProjectPreviewProps) {
   return (
-    <PreviewWrapper to={path}>
+    <PreviewWrapper>
       <Title>{name}</Title>
       <Image image={hero} />
       <PreviewBriefWrapper>
-        <BlockContent blocks={briefBlocks} />
+        <IntroCopyWrapper>
+          <BlockContent blocks={briefBlocks} />
+        </IntroCopyWrapper>
       </PreviewBriefWrapper>
       {images.map(i => {
         const key = i.asset?._id
@@ -76,8 +79,7 @@ function ProjectPreview({
   )
 }
 
-const PreviewWrapper = styled(Link)`
-  display: block;
+const PreviewWrapper = styled.div`
   margin-top: 180px;
   color: inherit;
   text-decoration: none;
@@ -92,5 +94,8 @@ const Title = styled.h2`
 const PreviewBriefWrapper = styled.div`
   margin-top: 120px;
   padding-inline: 120px; /* TODO find fliud value that maxes at 120px */
+
+  display: flex;
+
   font-size: ${32 / 16}rem;
 `
