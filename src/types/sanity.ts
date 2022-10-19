@@ -22,7 +22,7 @@ type SanityImageHotspot = {
   width: number
 }
 
-type SanityImageAsset = {
+export type SanityImageAsset = {
   _id: string
   title: string | null
   altText: string | null

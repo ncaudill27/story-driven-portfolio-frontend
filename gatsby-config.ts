@@ -4,7 +4,6 @@ require("dotenv").config({
 
 import type { GatsbyConfig } from "gatsby"
 
-console.log("TOKEN:", process.env.SANITY_READ_TOKEN)
 const config: GatsbyConfig = {
   siteMetadata: {
     title: "Brett Davis Photography",

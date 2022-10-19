@@ -1,3 +1,5 @@
+import { SanityImage, SanityImageAsset } from "../types/sanity"
+
 export function cn<T>(...args: T[]) {
   return args.filter(Boolean).join(" ")
 }
@@ -17,6 +19,10 @@ type ProjectUrlParams = {
 
 export function getProjectUrl({ slug, mediaType }: ProjectUrlParams) {
   return `/${mediaType}/${slug}/`
+}
+
+export function isValidImage(image: SanityImage): image is SanityImage {
+  return !!image.asset?.gatsbyImageData
 }
 
 // export function buildImageObj(source: SanityImage) {

@@ -3,6 +3,7 @@ import { graphql } from "gatsby"
 export const SanityImageCoreFragment = graphql`
   fragment SanityImageCoreFragment on SanityImage {
     asset {
+      _id
       altText
       gatsbyImageData
       metadata {
