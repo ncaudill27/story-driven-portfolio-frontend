@@ -30,7 +30,6 @@ const createProjectPages: CreatePagesFunction<IProject> = async (
             id
             name
             mediaType
-            slug
           }
         }
       }
@@ -52,7 +51,7 @@ const createProjectPages: CreatePagesFunction<IProject> = async (
       createPage({
         path,
         component: pathUtil.resolve("./src/templates/project.tsx"),
-        context: { id },
+        context: { id, slug },
       })
     }
   })

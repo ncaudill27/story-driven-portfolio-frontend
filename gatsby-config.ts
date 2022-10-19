@@ -1,5 +1,10 @@
+require("dotenv").config({
+  path: `.env.${process.env.NODE_ENV}`,
+})
+
 import type { GatsbyConfig } from "gatsby"
 
+console.log("TOKEN:", process.env.SANITY_READ_TOKEN)
 const config: GatsbyConfig = {
   siteMetadata: {
     title: "Brett Davis Photography",
@@ -20,6 +25,7 @@ const config: GatsbyConfig = {
       options: {
         projectId: "af3a1wel",
         dataset: "production",
+        token: process.env.SANITY_READ_TOKEN,
       },
     },
     "gatsby-plugin-styled-components",
