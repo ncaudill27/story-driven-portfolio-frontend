@@ -1,4 +1,4 @@
-import { SanityImage, SanityImageAsset } from "../types/sanity"
+import { SanityImage } from "../types/sanity"
 
 export function cn<T>(...args: T[]) {
   return args.filter(Boolean).join(" ")
