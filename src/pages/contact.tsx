@@ -1,7 +1,6 @@
 import * as React from "react"
 import { graphql } from "gatsby"
-import { GatsbyImage } from "gatsby-plugin-image"
-import { mapEdgesToNodes } from "../lib/helpers"
+import { getPageData } from "../lib/helpers"
 import { ucfirst } from "../lib/string-utils"
 import type { HeadFC, PageProps } from "gatsby"
 import type { PortableTextBlock } from "@portabletext/types"
@@ -10,10 +9,11 @@ import type { SanityImage, SanityGQLData } from "../types/sanity"
 import SEO from "../components/seo"
 import Layout from "../containers/layout"
 import BlockContent from "../components/block-content"
+import Image from "../components/image"
 
 type DataProps = SanityGQLData<ContactPageData>
 type ContactPageData = {
-  _rawBio: PortableTextBlock
+  bio: PortableTextBlock
   brettPortrait: SanityImage
   contactPoints: {
     [index: string]: string
@@ -26,7 +26,7 @@ type ContactPageData = {
 }
 
 export const Head: HeadFC<DataProps> = ({ data }) => {
-  const { brettPortrait } = mapEdgesToNodes(data.pageData)[0]
+  const { brettPortrait } = getPageData(data.pageData)
   const seoImage = brettPortrait.asset.publicUrl
   const seoalt = brettPortrait.asset?.altText ?? ""
   console.log(seoImage)
@@ -34,17 +34,14 @@ export const Head: HeadFC<DataProps> = ({ data }) => {
   return <SEO title="Contact" imagePath={seoImage} imageAlt={seoalt} />
 }
 export default function ContactPage({ data }: PageProps<DataProps>) {
-  const pageData = mapEdgesToNodes<ContactPageData>(data.pageData)[0]
-  const leadBlocks = pageData._rawBio
-  const heroImageData = pageData.brettPortrait.asset?.gatsbyImageData
-  const heroImageAlt = pageData.brettPortrait.asset?.altText ?? ""
-  const contactPoints = pageData.contactPoints
+  const pageData = getPageData<ContactPageData>(data.pageData)
+  const { bio, brettPortrait, contactPoints } = pageData
 
   return (
     <Layout>
       <h1>Contact Page</h1>
-      <GatsbyImage alt={heroImageAlt} image={heroImageData} />
-      <BlockContent blocks={leadBlocks} />
+      <Image image={brettPortrait} />
+      <BlockContent blocks={bio} />
       <>
         {Object.keys(contactPoints).map(key => {
           return (
@@ -67,7 +64,7 @@ export const query = graphql`
     pageData: allSanityContactPage {
       edges {
         node {
-          _rawBio
+          bio: _rawBio
           brettPortrait {
             ...SanityImageCoreFragment
           }

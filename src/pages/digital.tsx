@@ -1,6 +1,6 @@
 import * as React from "react"
 import { graphql } from "gatsby"
-import { mapEdgesToNodes } from "../lib/helpers"
+import { getPageData, mapEdgesToNodes } from "../lib/helpers"
 import type { HeadFC, PageProps } from "gatsby"
 import type { PortableTextBlock } from "@portabletext/types"
 import type { SanityImage, SanityGQLData } from "../types/sanity"
@@ -8,37 +8,28 @@ import type { IProject } from "../types/project"
 
 import SEO from "../components/seo"
 import Layout from "../containers/layout"
-import { GatsbyImage } from "gatsby-plugin-image"
 import BlockContent from "../components/block-content"
 import ProjectList from "../components/project-list"
+import HeroFullBleed from "../components/hero-full-bleed"
 
 type DataProps = SanityGQLData<IProject> & SanityGQLData<DigitalPageData>
 type DigitalPageData = {
   intro: PortableTextBlock
-  digitalHero: SanityImage
+  hero: SanityImage
 }
 
 // eslint-disable-next-line
 export const Head: HeadFC = () => <SEO />
 export default function DigitalPage({ data }: PageProps<DataProps>) {
+  const { intro, hero } = getPageData<DigitalPageData>(data.pageData)
   const projects = mapEdgesToNodes<IProject>(data.projects)
-  const pageData = mapEdgesToNodes<DigitalPageData>(data.pageData)[0]
-  const heroImageAlt = pageData.digitalHero.asset?.altText ?? ""
-  const heroImageData = pageData.digitalHero.asset.gatsbyImageData
-  const intro = pageData.intro
-
-  console.log(projects)
 
   return (
     <Layout>
-      <h1>Digital Page</h1>
-      <GatsbyImage alt={heroImageAlt} image={heroImageData} />
+      <h1>Film Page</h1>
+      <HeroFullBleed image={hero} />
       <BlockContent blocks={intro} />
       <ProjectList projects={projects} />
-      <p>Query Result:</p>
-      <pre>
-        <code>{JSON.stringify(pageData, null, 2)}</code>
-      </pre>
     </Layout>
   )
 }

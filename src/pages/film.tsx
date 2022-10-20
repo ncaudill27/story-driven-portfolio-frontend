@@ -1,6 +1,6 @@
 import * as React from "react"
 import { graphql } from "gatsby"
-import { mapEdgesToNodes } from "../lib/helpers"
+import { getPageData, mapEdgesToNodes } from "../lib/helpers"
 import type { HeadFC, PageProps } from "gatsby"
 import type { PortableTextBlock } from "@portabletext/types"
 import type { SanityImage, SanityGQLData } from "../types/sanity"
@@ -8,37 +8,28 @@ import type { IProject } from "../types/project"
 
 import SEO from "../components/seo"
 import Layout from "../containers/layout"
-import { GatsbyImage } from "gatsby-plugin-image"
 import BlockContent from "../components/block-content"
 import ProjectList from "../components/project-list"
+import HeroFullBleed from "../components/hero-full-bleed"
 
 type DataProps = SanityGQLData<IProject> & SanityGQLData<FilmPageData>
 type FilmPageData = {
   intro: PortableTextBlock
-  digitalHero: SanityImage
+  hero: SanityImage
 }
 
 // eslint-disable-next-line
 export const Head: HeadFC = () => <SEO />
 export default function FilmPage({ data }: PageProps<DataProps>) {
+  const { intro, hero } = getPageData<FilmPageData>(data.pageData)
   const projects = mapEdgesToNodes<IProject>(data.projects)
-  const pageData = mapEdgesToNodes<FilmPageData>(data.pageData)[0]
-  const heroImageAlt = pageData.digitalHero.asset?.altText ?? ""
-  const heroImageData = pageData.digitalHero.asset.gatsbyImageData
-  const intro = pageData.intro
-
-  console.log(projects)
 
   return (
     <Layout>
       <h1>Film Page</h1>
-      <GatsbyImage alt={heroImageAlt} image={heroImageData} />
+      <HeroFullBleed image={hero} />
       <BlockContent blocks={intro} />
       <ProjectList projects={projects} />
-      <p>Query Result:</p>
-      <pre>
-        <code>{JSON.stringify(pageData, null, 2)}</code>
-      </pre>
     </Layout>
   )
 }
@@ -55,7 +46,7 @@ export const query = graphql`
         }
       }
     }
-    projects: allSanityProject(filter: { mediaType: { eq: "digital" } }) {
+    projects: allSanityProject(filter: { mediaType: { eq: "film" } }) {
       edges {
         node {
           ...SanityProjectPreview

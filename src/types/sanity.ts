@@ -1,11 +1,8 @@
 import type { IGatsbyImageData } from "gatsby-plugin-image"
+import type { GatsbyEdges } from "../types/gatsby"
 
 export type SanityGQLData<T> = {
-  [key: string]: {
-    edges: {
-      node: T
-    }[]
-  }
+  [key: string]: GatsbyEdges<T>
 }
 
 type SanityImageCrop = {
