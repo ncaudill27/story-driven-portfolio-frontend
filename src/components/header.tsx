@@ -43,6 +43,7 @@ const NavLink = styled(Link)`
   height: fit-content;
   margin-top: 16px;
 
+  font-size: ${14 / 16}rem;
   text-decoration: none;
   color: inherit;
   font-family: inherit;

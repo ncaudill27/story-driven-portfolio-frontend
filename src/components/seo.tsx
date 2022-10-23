@@ -37,7 +37,7 @@ export default function SEO({
       <meta name="og:url" content={seo.url} />
       <meta name="og:site_name" content="Brett Davis Photography" />
       {/* TODO fill out info for image tag and og:image:width og:image:height og:image:alt og:image:type */}
-      <meta name="og: image" content="Brett Davis Photography" />
+      <meta name="og:image" content="Brett Davis Photography" />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={seo.title} />
       <meta name="twitter:url" content={seo.url} />

@@ -9,6 +9,8 @@ interface ImageProps extends Omit<GatsbyImageProps, "image" | "alt"> {
 }
 
 export default function Image({ image, ...props }: ImageProps) {
+  if (!image) return null
+
   const { altText, gatsbyImageData } = useAsset(image)
 
   return <GatsbyImage alt={altText} image={gatsbyImageData} {...props} />

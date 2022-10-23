@@ -7,10 +7,7 @@ import type { SanityImage, SanityGQLData } from "../types/sanity"
 import type { IProject } from "../types/project"
 
 import SEO from "../components/seo"
-import Layout from "../containers/layout"
-import BlockContent from "../components/block-content"
-import ProjectList from "../components/project-list"
-import HeroFullBleed from "../components/hero-full-bleed"
+import CollectionPage from "../components/collection"
 
 type DataProps = SanityGQLData<IProject> & SanityGQLData<FilmPageData>
 type FilmPageData = {
@@ -24,19 +21,12 @@ export default function FilmPage({ data }: PageProps<DataProps>) {
   const { intro, hero } = getPageData<FilmPageData>(data.pageData)
   const projects = mapEdgesToNodes<IProject>(data.projects)
 
-  return (
-    <Layout>
-      <h1>Film Page</h1>
-      <HeroFullBleed image={hero} />
-      <BlockContent blocks={intro} />
-      <ProjectList projects={projects} />
-    </Layout>
-  )
+  return <CollectionPage hero={hero} intro={intro} projects={projects} />
 }
 
 export const query = graphql`
   query FilmIndexPageData {
-    pageData: allSanityProject(filter: { mediaType: { eq: "film" } }) {
+    pageData: allSanityFilmPage {
       edges {
         node {
           intro: _rawIntro

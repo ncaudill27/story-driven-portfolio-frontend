@@ -7,10 +7,7 @@ import type { SanityImage, SanityGQLData } from "../types/sanity"
 import type { IProject } from "../types/project"
 
 import SEO from "../components/seo"
-import Layout from "../containers/layout"
-import BlockContent from "../components/block-content"
-import ProjectList from "../components/project-list"
-import HeroFullBleed from "../components/hero-full-bleed"
+import CollectionPage from "../components/collection"
 
 type DataProps = SanityGQLData<IProject> & SanityGQLData<AnalogPageData>
 type AnalogPageData = {
@@ -24,19 +21,12 @@ export default function AnalogPage({ data }: PageProps<DataProps>) {
   const { intro, hero } = getPageData<AnalogPageData>(data.pageData)
   const projects = mapEdgesToNodes<IProject>(data.projects)
 
-  return (
-    <Layout>
-      <h1>Film Page</h1>
-      <HeroFullBleed image={hero} />
-      <BlockContent blocks={intro} />
-      <ProjectList projects={projects} />
-    </Layout>
-  )
+  return <CollectionPage hero={hero} intro={intro} projects={projects} />
 }
 
 export const query = graphql`
   query AnalogIndexPageData {
-    pageData: allSanityProject(filter: { mediaType: { eq: "analog" } }) {
+    pageData: allSanityAnalogPage {
       edges {
         node {
           intro: _rawIntro
