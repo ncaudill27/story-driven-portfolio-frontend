@@ -11,8 +11,6 @@ import SEO from "../components/seo"
 import Layout from "../containers/layout"
 import ProjectList from "../components/project-list"
 import HeroFullBleed from "../components/hero-full-bleed"
-import Image from "../components/image"
-import IntroCopy from "../components/intro-copy-wrapper"
 import Intro from "../components/intro"
 
 type DataProps = SanityGQLData<HomePageData>

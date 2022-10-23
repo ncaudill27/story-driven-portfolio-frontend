@@ -5,12 +5,13 @@ import type { SanityImage } from "../types/sanity"
 import type { IProject } from "../types/project"
 
 import { slugify } from "../lib/string-utils"
-import { Link } from "gatsby"
 import { useImages } from "../hooks/use-images"
 import { usePath } from "../hooks/use-path"
 import Image from "./image"
 import IntroCopy from "./intro-copy-wrapper"
 import HeroFullBleed from "./hero-full-bleed"
+import CTALink from "./call-to-action"
+import Right from "../images/svg/chevron-right.svg"
 
 type PreviewListProps = { projects: IProject[] }
 
@@ -70,8 +71,15 @@ function ProjectPreview({
       <PreviewBriefWrapper>
         <IntroCopy blocks={briefBlocks} />
         <IntroLinkWrapper>
-          <Link to={path}>See shoot</Link>
-          <Link to="TODO add gallery">Gallery</Link>
+          <CTALink to={path} variant="ghost">
+            <Flex>
+              See shoot
+              <Right style={{ marginTop: 3.5 }} />
+            </Flex>
+          </CTALink>
+          <CTALink to="TODO add gallery" variant="ghost">
+            View as gallery
+          </CTALink>
         </IntroLinkWrapper>
       </PreviewBriefWrapper>
       <BriefImageWrapper>
@@ -86,6 +94,11 @@ function ProjectPreview({
   )
 }
 
+const Flex = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 16px;
+`
 const BriefImageWrapper = styled.div`
   --padding-inline: 120px;
   padding-left: calc(var(--padding-inline) + 56px);

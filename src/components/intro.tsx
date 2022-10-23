@@ -5,6 +5,7 @@ import type { SanityImage } from "../types/sanity"
 
 import Image from "../components/image"
 import BlockContent from "./block-content"
+import CTALink from "./call-to-action"
 
 type IntroProps = {
   heading?: string
@@ -18,6 +19,7 @@ export default function Intro({ heading, blocks, image }: IntroProps) {
       <CopyWrapper style={{ "--extra-margin": "94px" }}>
         {heading && <Title>Analog Page</Title>}
         <BlockContent blocks={blocks} />
+        <CTALink to="contact">Book your next shoot</CTALink>
       </CopyWrapper>
       <ImageWrapper>
         <Image image={image} objectFit="contain" />
