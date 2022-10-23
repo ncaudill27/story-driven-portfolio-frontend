@@ -72,12 +72,17 @@ const HeroSectionWrapper = styled.div`
   padding-left: 120px;
   padding-right: 132px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+
+  isolation: isolate;
 `
 
 const HeroCopyWrapper = styled.div`
   margin-top: 80px;
   max-width: 583px;
+  margin-right: -5vw;
+
+  z-index: 1;
 `
 
 const Title = styled.h1`
@@ -85,8 +90,7 @@ const Title = styled.h1`
 `
 
 const HeroImageWrapper = styled.div`
-  width: 720px;
-  height: 810px;
+  max-width: 720px;
 `
 
 const SubjectSectionWrapper = styled.div`

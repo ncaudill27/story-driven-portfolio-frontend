@@ -31,7 +31,7 @@ export default function ElementSection({
       <ImageWrapper
         style={{
           "--margin-top": isEven ? "60px" : "120px",
-          "--margin-left": isEven ? "-176px" : "0",
+          "--margin-left": isEven ? "-7vw" : "0",
         }}
       >
         <Image image={image} />
@@ -39,7 +39,7 @@ export default function ElementSection({
       <CopyWrapper
         style={{
           "--margin-right": isEven ? "-12px" : "0",
-          "--margin-left": isEven ? "0" : "-140px",
+          "--margin-left": isEven ? "0" : "-5vw",
         }}
       >
         <Name>{name}</Name>
