@@ -11,6 +11,7 @@ import BlockContent from "../components/block-content"
 import Image from "../components/image"
 import { useImages } from "../hooks/use-images"
 import ElementSection from "../components/element"
+import CTALink from "../components/call-to-action"
 
 type DataProps = {
   pageData: IProject
@@ -56,6 +57,14 @@ export default function ProjectTemplate({ data }: PageProps<DataProps>) {
         </SubjectImageWrapper>
         <SubjectCopyWrapper>
           <BlockContent blocks={subject} />
+          <div>
+            <CTALink to="contact" variant="fill">
+              Book your next shoot
+            </CTALink>
+            <CTALink to="contact" variant="ghost">
+              View as gallery
+            </CTALink>
+          </div>
         </SubjectCopyWrapper>
       </SubjectSectionWrapper>
       <>
@@ -107,7 +116,11 @@ const SubjectImageWrapper = styled.div`
   margin-top: 32px;
 `
 
-const SubjectCopyWrapper = styled.div``
+const SubjectCopyWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`
 
 export const query = graphql`
   query ProjectTemplateData($id: String!) {

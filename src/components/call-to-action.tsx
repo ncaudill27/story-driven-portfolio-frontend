@@ -35,6 +35,10 @@ const BaseLink = styled(Link)`
 const Filled = styled(BaseLink)`
   color: ${BLUE[100]};
   background-color: ${BLUE[500]};
+
+  &:hover {
+    background-color: ${BLUE[400]};
+  }
 `
 
 const Ghost = styled(BaseLink)`
