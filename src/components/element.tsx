@@ -28,10 +28,20 @@ export default function ElementSection({
         "--padding-left": isEven ? "142px" : "80px",
       }}
     >
-      <ImageWrapper style={{ "--margin-top": isEven ? "60px" : "120px" }}>
+      <ImageWrapper
+        style={{
+          "--margin-top": isEven ? "60px" : "120px",
+          "--margin-left": isEven ? "-176px" : "0",
+        }}
+      >
         <Image image={image} />
       </ImageWrapper>
-      <CopyWrapper style={{ "--margin-right": isEven ? "-12px" : "0" }}>
+      <CopyWrapper
+        style={{
+          "--margin-right": isEven ? "-12px" : "0",
+          "--margin-left": isEven ? "0" : "-140px",
+        }}
+      >
         <Name>{name}</Name>
         <BlockContent blocks={description} />
       </CopyWrapper>
@@ -47,7 +57,7 @@ interface Root {
 }
 
 const RootWrapper = styled.div<Root>`
-  margin-top: 180px;
+  margin-top: 264px;
   padding-left: var(--padding-left);
   padding-right: 136px;
 
@@ -61,26 +71,33 @@ const RootWrapper = styled.div<Root>`
 interface Copy {
   style: {
     "--margin-right": string
+    "--margin-left": string
   }
 }
 
 const CopyWrapper = styled.div<Copy>`
   min-width: 568px;
   margin-right: var(--margin-right);
+  margin-left: var(--margin-left);
 
   z-index: 1;
 `
 
 interface Image {
-  style: { "--margin-top": "60px" | "120px" }
+  style: {
+    "--margin-top": "60px" | "120px"
+    "--margin-left": string
+  }
 }
 
 const ImageWrapper = styled.div<Image>`
   margin-top: var(--margin-top);
-  margin-left: -176px;
+  margin-left: var(--margin-left);
 `
 
 const Name = styled.h2`
-  font-size: ${52 / 16}rem;
+  margin-bottom: 60px;
+  font-size: ${72 / 16}rem;
   font-weight: bold;
+  line-height: 1;
 `

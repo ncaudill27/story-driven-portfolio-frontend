@@ -96,7 +96,7 @@ const SubjectSectionWrapper = styled.div`
 
   display: flex;
   justify-content: space-between;
-  gap: 80px;
+  gap: 66px;
 `
 
 const SubjectImageWrapper = styled.div`
