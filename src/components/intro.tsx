@@ -6,6 +6,7 @@ import type { SanityImage } from "../types/sanity"
 import Image from "../components/image"
 import BlockContent from "./block-content"
 import CTALink from "./call-to-action"
+import Title from "../components/heading"
 
 type IntroProps = {
   heading?: string
@@ -17,7 +18,7 @@ export default function Intro({ heading, blocks, image }: IntroProps) {
   return (
     <RootWrapper>
       <CopyWrapper style={{ "--extra-margin": "94px" }}>
-        {heading && <Title>Analog Page</Title>}
+        {heading && <Title view="project">Analog Page</Title>}
         <BlockContent blocks={blocks} />
         <CTALink to="contact">Book your next shoot</CTALink>
       </CopyWrapper>
@@ -27,10 +28,6 @@ export default function Intro({ heading, blocks, image }: IntroProps) {
     </RootWrapper>
   )
 }
-
-const Title = styled.h1`
-  font-size: ${92 / 16}rem;
-`
 
 const RootWrapper = styled.div`
   margin-top: 180px;

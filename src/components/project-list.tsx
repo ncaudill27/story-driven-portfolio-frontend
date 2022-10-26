@@ -12,6 +12,7 @@ import IntroCopy from "./intro-copy-wrapper"
 import HeroFullBleed from "./hero-full-bleed"
 import CTALink from "./call-to-action"
 import Right from "../images/svg/chevron-right.svg"
+import Title from "./heading"
 
 type PreviewListProps = { projects: IProject[] }
 
@@ -66,7 +67,7 @@ function ProjectPreview({
 
   return (
     <PreviewWrapper>
-      <Title>{name}</Title>
+      <Title view="preview">{name}</Title>
       <HeroFullBleed image={hero} />
       <PreviewBriefWrapper>
         <IntroCopy blocks={briefBlocks} />
@@ -106,6 +107,7 @@ const BriefImageWrapper = styled.div`
 
   display: flex;
   justify-content: space-between;
+  gap: 185px;
 `
 
 const FirstPreviewImageWrapper = styled.div`
@@ -124,18 +126,14 @@ const PreviewWrapper = styled.div`
   text-decoration: none;
 `
 
-const Title = styled.h2`
-  font-size: ${92 / 16}rem;
-  text-align: center;
-  margin-bottom: 80px;
-`
-
 const PreviewBriefWrapper = styled.div`
   margin-top: 120px;
-  padding-inline: 120px; /* TODO find fliud value that maxes at 120px */
+  padding-left: 120px;
+  padding-right: max(16px, 33vw - 954px / 3);
 
   display: flex;
   justify-content: space-between;
+  gap: 40px;
 
   font-size: ${32 / 16}rem;
 `

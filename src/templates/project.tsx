@@ -12,6 +12,7 @@ import Image from "../components/image"
 import { useImages } from "../hooks/use-images"
 import ElementSection from "../components/element"
 import CTALink from "../components/call-to-action"
+import Title from "../components/heading"
 
 type DataProps = {
   pageData: IProject
@@ -44,7 +45,7 @@ export default function ProjectTemplate({ data }: PageProps<DataProps>) {
     <Layout>
       <HeroSectionWrapper>
         <HeroCopyWrapper>
-          <Title>{name}</Title>
+          <Title view="project">{name}</Title>
           <BlockContent blocks={intro} />
         </HeroCopyWrapper>
         <HeroImageWrapper>
@@ -92,10 +93,6 @@ const HeroCopyWrapper = styled.div`
   margin-right: -5vw;
 
   z-index: 1;
-`
-
-const Title = styled.h1`
-  font-size: ${92 / 16}rem;
 `
 
 const HeroImageWrapper = styled.div`
