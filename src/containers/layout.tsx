@@ -1,4 +1,5 @@
 import React, { ReactElement } from "react"
+import { useQueryParam, StringParam } from "use-query-params"
 
 import Layout from "../components/layout"
 
@@ -7,6 +8,9 @@ type LayoutContainerProps = {
 }
 
 function LayoutContainer(props: LayoutContainerProps) {
+  const [modal, setModal] = useQueryParam("modal", StringParam)
+
+  console.log("\n#####\n", "MODAL: ", modal, "\n#####\n")
   return <Layout {...props} />
 }
 
