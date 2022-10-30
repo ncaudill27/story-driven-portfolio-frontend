@@ -13,6 +13,7 @@ import HeroFullBleed from "./hero-full-bleed"
 import CTALink from "./call-to-action"
 import Right from "../images/svg/chevron-right.svg"
 import Title from "./heading"
+import { ModalContext } from "../containers/layout"
 
 type PreviewListProps = { projects: IProject[] }
 
@@ -64,6 +65,7 @@ function ProjectPreview({
   briefBlocks,
 }: ProjectPreviewProps) {
   const [firstPreview, secondPreview] = images
+  const { setModal } = React.useContext(ModalContext)
 
   return (
     <PreviewWrapper>
@@ -78,9 +80,7 @@ function ProjectPreview({
               <Right style={{ marginTop: 3.5 }} />
             </Flex>
           </CTALink>
-          <CTALink to="TODO add gallery" variant="ghost">
-            View as gallery
-          </CTALink>
+          <button onClick={() => setModal(name)}>View as gallery</button>
         </IntroLinkWrapper>
       </PreviewBriefWrapper>
       <BriefImageWrapper>
