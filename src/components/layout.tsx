@@ -4,13 +4,14 @@ import GlobalStyles from "../styles/global-styles"
 import Header from "./header"
 
 type LayoutComponentProps = {
+  hideNav: boolean
   children: ReactElement | ReactElement[]
 }
 
-const Layout = ({ children }: LayoutComponentProps) => (
+const Layout = ({ hideNav, children }: LayoutComponentProps) => (
   <>
     <GlobalStyles />
-    <Header />
+    {hideNav && <Header />}
     {children}
   </>
 )

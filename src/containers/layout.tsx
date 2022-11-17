@@ -1,10 +1,12 @@
 import React, { ReactElement, createContext, useMemo } from "react"
 import { useQueryParam } from "use-query-params"
+import type { PageProps } from "gatsby"
 import type { UrlUpdateType } from "use-query-params"
 
 import Layout from "../components/layout"
 
 type LayoutContainerProps = {
+  location?: PageProps["location"]
   children: ReactElement | ReactElement[]
 }
 
@@ -19,12 +21,14 @@ export const ModalContext = createContext<IModalContext>({
 })
 
 function LayoutContainer(props: LayoutContainerProps) {
+  const { location } = props
   const [modal, setModal] = useQueryParam<string | null>("modal")
   const modalValues = useMemo(() => ({ modal, setModal }), [modal, setModal])
+  const hideNav = !!location?.pathname && !/gallery/.test(location.pathname)
 
   return (
     <ModalContext.Provider value={modalValues}>
-      <Layout {...props} />
+      <Layout hideNav={hideNav} {...props} />
     </ModalContext.Provider>
   )
 }
