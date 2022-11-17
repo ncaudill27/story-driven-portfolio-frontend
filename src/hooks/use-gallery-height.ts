@@ -1,10 +1,8 @@
 import { useState } from "react"
 import boundingClientRect from "../lib/bounding-client-rect"
 
-export type ImageCallbackRefHeightFn = (
-  node: HTMLElement | null
-) => Promise<void>
-type GalleryHeightTuple = [number, ImageCallbackRefHeightFn]
+export type GalleryItemCbRefHeight = (node: HTMLElement | null) => Promise<void>
+type GalleryHeightTuple = [number, GalleryItemCbRefHeight]
 
 export function useGalleryHeight(): GalleryHeightTuple {
   const [imageHeightArray, setImageHeightArray] = useState<number[]>([])

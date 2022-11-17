@@ -4,7 +4,7 @@ import { graphql } from "gatsby"
 import { toPlainText } from "@portabletext/react"
 import type { HeadFC, PageProps } from "gatsby"
 import type { IProject } from "../types/project"
-import type { ImageCallbackRefHeightFn } from "../hooks/use-gallery-height"
+import type { GalleryItemCbRefHeight } from "../hooks/use-gallery-height"
 
 import SEO from "../components/seo"
 import Image, { ImageProps } from "../components/image"
@@ -33,7 +33,7 @@ export const Head: HeadFC<DataProps> = ({ data }) => {
   )
 }
 
-type GalleryImageProps = ImageProps & { set: ImageCallbackRefHeightFn }
+type GalleryImageProps = ImageProps & { set: GalleryItemCbRefHeight }
 function GalleryImage({ image, set }: GalleryImageProps) {
   const imageEl = React.useCallback(set, [])
 
