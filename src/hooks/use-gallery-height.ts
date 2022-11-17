@@ -1,11 +1,19 @@
-export function useGalleryHeight(heights: number[]) {
-  console.log("HEIGHTS ARRAY: ", heights)
+import { useState } from "react"
+import boundingClientRect from "../lib/bounding-client-rect"
+
+export type ImageCallbackRefHeightFn = (
+  node: HTMLElement | null
+) => Promise<void>
+type GalleryHeightTuple = [number, ImageCallbackRefHeightFn]
+
+export function useGalleryHeight(): GalleryHeightTuple {
+  const [imageHeightArray, setImageHeightArray] = useState<number[]>([])
   let col1Height = 0,
     col2Height = 0,
     col3Height = 0
 
-  for (let i = 0; i < heights.length; i++) {
-    const imageHeight = heights[0]
+  for (let i = 0; i < imageHeightArray.length; i++) {
+    const imageHeight = imageHeightArray[i]
     const columnKey = i % 3
 
     switch (columnKey) {
@@ -24,7 +32,15 @@ export function useGalleryHeight(heights: number[]) {
   }
 
   const tallestColumn = Math.max(col1Height, col2Height, col3Height)
-  const marginCoefficient = heights.length / 3 / 100 + 1
+  const marginCoefficient = (imageHeightArray.length + 3 * 2) / 100 + 1
+  const galleryHeight = tallestColumn * marginCoefficient
 
-  return tallestColumn * marginCoefficient
+  async function callbackRefHeight(node: HTMLElement | null) {
+    if (node !== null) {
+      const { height } = await boundingClientRect(node)
+      setImageHeightArray(prev => [...prev, height])
+    }
+  }
+
+  return [galleryHeight, callbackRefHeight]
 }

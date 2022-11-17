@@ -4,13 +4,13 @@ import { graphql } from "gatsby"
 import { toPlainText } from "@portabletext/react"
 import type { HeadFC, PageProps } from "gatsby"
 import type { IProject } from "../types/project"
+import type { ImageCallbackRefHeightFn } from "../hooks/use-gallery-height"
 
 import SEO from "../components/seo"
 import Image, { ImageProps } from "../components/image"
 import { useImages } from "../hooks/use-images"
 import GlobalStyles from "../styles/global-styles"
 import { useGalleryHeight } from "../hooks/use-gallery-height"
-import boundingClientRect from "../lib/bounding-client-rect"
 
 type DataProps = {
   pageData: IProject
@@ -33,16 +33,9 @@ export const Head: HeadFC<DataProps> = ({ data }) => {
   )
 }
 
-type SetFn = React.Dispatch<React.SetStateAction<number[]>>
-type GalleryImageProps = ImageProps & { set: SetFn }
+type GalleryImageProps = ImageProps & { set: ImageCallbackRefHeightFn }
 function GalleryImage({ image, set }: GalleryImageProps) {
-  const imageEl = React.useCallback(async (node: HTMLElement | null) => {
-    console.log("NODE: ", node)
-    if (node !== null) {
-      const { height } = await boundingClientRect(node)
-      set(prev => [...prev, height])
-    }
-  }, [])
+  const imageEl = React.useCallback(set, [])
 
   return (
     <GalleryItem ref={imageEl}>
@@ -51,19 +44,18 @@ function GalleryImage({ image, set }: GalleryImageProps) {
   )
 }
 
+export type GalleryRef = React.MutableRefObject<HTMLUListElement | null>
+
 export default function GalleryTemplate({ data }: PageProps<DataProps>) {
   const { images: rawImages } = data.pageData
   const { images } = useImages(rawImages)
-  const [imageHeightArray, setImageHeightArray] = React.useState<number[]>([])
-  const galleryHeight = useGalleryHeight(imageHeightArray)
-  console.log("Gallery height: ", galleryHeight)
-  console.log(imageHeightArray)
+  const [galleryHeight, callBackRefHeight] = useGalleryHeight()
 
   return (
-    <GalleryWrapper style={{ "--height": galleryHeight * 1.02 + "px" }}>
+    <GalleryWrapper style={{ "--height": galleryHeight + "px" }}>
       <GlobalStyles />
       {images.map(i => (
-        <GalleryImage key={i.asset._id} image={i} set={setImageHeightArray} />
+        <GalleryImage key={i.asset._id} image={i} set={callBackRefHeight} />
       ))}
     </GalleryWrapper>
   )
@@ -77,6 +69,7 @@ interface Gallery {
 const GalleryWrapper = styled.ul<Gallery>`
   --gap: 2%;
   padding: var(--gap);
+  max-width: 100vw;
   display: flex;
   flex-flow: column wrap;
   align-content: space-between;
