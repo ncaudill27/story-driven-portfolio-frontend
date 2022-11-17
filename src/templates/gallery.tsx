@@ -33,12 +33,15 @@ export const Head: HeadFC<DataProps> = ({ data }) => {
   )
 }
 
-type GalleryImageProps = ImageProps & { set: GalleryItemCbRefHeight }
-function GalleryImage({ image, set }: GalleryImageProps) {
-  const imageEl = React.useCallback(set, [])
+type GalleryImageProps = ImageProps & {
+  set: GalleryItemCbRefHeight
+  index: number
+}
+function GalleryImage({ image, set, index }: GalleryImageProps) {
+  const imageEl = React.useCallback(set(index), [])
 
   return (
-    <GalleryItem ref={imageEl}>
+    <GalleryItem ref={imageEl} id={index}>
       <StyledGalleryImage image={image} />
     </GalleryItem>
   )
@@ -53,12 +56,17 @@ export default function GalleryTemplate({
   const { images: rawImages } = data.pageData
   const { images } = useImages(rawImages)
   const [galleryHeight, callBackRefHeight] = useGalleryHeight()
-
+  console.log("\n#####\n", "GALLERYHEIGHT: ", galleryHeight, "\n#####\n")
   return (
     <LayoutContainer location={location}>
       <GalleryWrapper style={{ "--height": galleryHeight + "px" }}>
-        {images.map(i => (
-          <GalleryImage key={i.asset._id} image={i} set={callBackRefHeight} />
+        {images.map((i, idx) => (
+          <GalleryImage
+            key={i.asset._id}
+            index={idx}
+            image={i}
+            set={callBackRefHeight}
+          />
         ))}
       </GalleryWrapper>
     </LayoutContainer>
@@ -89,7 +97,10 @@ const GalleryWrapper = styled.ul<Gallery>`
   }
 `
 
-const GalleryItem = styled.li`
+interface Item {
+  id: number
+}
+const GalleryItem = styled.li<Item>`
   width: 32%;
   margin-bottom: var(--gap); /* Optional */
   &:nth-child(3n + 1) {
