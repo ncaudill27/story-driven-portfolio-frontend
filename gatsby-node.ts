@@ -47,6 +47,7 @@ const createProjectPages: CreatePagesFunction<IProject> = async (
     const section = p.mediaType
     const projectPath = `/${section}/${slug}/`
     const galleryPath = projectPath + "gallery/"
+    const carouselPath = projectPath + "carousel/"
 
     createPage({
       path: projectPath,
@@ -56,6 +57,11 @@ const createProjectPages: CreatePagesFunction<IProject> = async (
     createPage({
       path: galleryPath,
       component: pathUtil.resolve("./src/templates/gallery.tsx"),
+      context: { id },
+    })
+    createPage({
+      path: carouselPath,
+      component: pathUtil.resolve("./src/templates/carousel.tsx"),
       context: { id },
     })
   })

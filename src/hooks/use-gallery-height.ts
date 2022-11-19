@@ -18,8 +18,9 @@ function calculateHeight(heights: DynamicRefHeights) {
   for (const [k, v] of Object.entries(heights)) {
     console.log("\n#####\n", "K: ", k, "\n#####\n")
     console.log("\n#####\n", "V: ", v, "\n#####\n")
+    const imageIndex = parseInt(k, 10)
     const imageHeight = v
-    const columnKey = k % 3
+    const columnKey = imageIndex % 3
 
     switch (columnKey) {
       case 0:
@@ -46,11 +47,9 @@ function calculateHeight(heights: DynamicRefHeights) {
 export function useGalleryHeight(): GalleryHeightTuple {
   const [imageHeights, setImageHeights] = useState<DynamicRefHeights>({})
   let galleryHeight = calculateHeight(imageHeights)
-  console.log("\n#####\n", "imageHeights: ", imageHeights, "\n#####\n")
 
   const ro = new ResizeObserver(entries => {
     for (let entry of entries) {
-      console.log("\n#####\n", "ENTRY: ", entry.target.id, "\n#####\n")
       setImageHeights(prev => ({
         ...prev,
         [entry.target.id]: entry.contentRect.height,

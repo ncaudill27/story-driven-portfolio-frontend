@@ -24,7 +24,8 @@ function LayoutContainer(props: LayoutContainerProps) {
   const { location } = props
   const [modal, setModal] = useQueryParam<string | null>("modal")
   const modalValues = useMemo(() => ({ modal, setModal }), [modal, setModal])
-  const hideNav = !!location?.pathname && !/gallery/.test(location.pathname)
+  const hideNav =
+    !!location?.pathname && !/gallery|carousel/.test(location.pathname)
 
   return (
     <ModalContext.Provider value={modalValues}>
