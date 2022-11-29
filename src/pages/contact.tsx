@@ -14,7 +14,7 @@ import Image from "../components/image"
 type DataProps = SanityGQLData<ContactPageData>
 type ContactPageData = {
   bio: PortableTextBlock
-  brettPortrait: SanityImage
+  contactImage: SanityImage
   contactPoints: {
     [index: string]: string
     email: string
@@ -26,21 +26,21 @@ type ContactPageData = {
 }
 
 export const Head: HeadFC<DataProps> = ({ data }) => {
-  const { brettPortrait } = getPageData(data.pageData)
-  const seoImage = brettPortrait.asset.publicUrl
-  const seoalt = brettPortrait.asset?.altText ?? ""
+  const { contactImage } = getPageData(data.pageData)
+  const seoImage = contactImage.asset.publicUrl
+  const seoalt = contactImage.asset?.altText ?? ""
   console.log(seoImage)
 
   return <SEO title="Contact" imagePath={seoImage} imageAlt={seoalt} />
 }
 export default function ContactPage({ data }: PageProps<DataProps>) {
   const pageData = getPageData<ContactPageData>(data.pageData)
-  const { bio, brettPortrait, contactPoints } = pageData
+  const { bio, contactImage, contactPoints } = pageData
 
   return (
     <Layout>
       <h1>Contact Page</h1>
-      <Image image={brettPortrait} />
+      <Image image={contactImage} />
       <BlockContent blocks={bio} />
       <>
         {Object.keys(contactPoints).map(key => {
@@ -65,7 +65,7 @@ export const query = graphql`
       edges {
         node {
           bio: _rawBio
-          brettPortrait {
+          contactImage {
             ...SanityImageCoreFragment
           }
           contactPoints {

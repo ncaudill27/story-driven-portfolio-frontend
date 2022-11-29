@@ -1,8 +1,8 @@
 {
-  "name": "brett-davis-photography",
+  "name": "portfolio-story-template",
   "version": "1.0.0",
   "private": true,
-  "description": "brett-davis-photography",
+  "description": "Story driven portfoltio template",
   "author": "Nelson Caudill",
   "keywords": [
     "gatsby"

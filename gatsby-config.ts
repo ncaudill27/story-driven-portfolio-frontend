@@ -6,13 +6,13 @@ import type { GatsbyConfig } from "gatsby"
 
 const config: GatsbyConfig = {
   siteMetadata: {
-    title: "Brett Davis Photography",
+    title: "TODO",
     description: "TODO",
     // When defining the image like above, make sure that you have an image
     // with the same name and file extension in the static folder.
     imagePath: "TODO", // relative path to image in static folder
     imageAlt: "TODO",
-    siteUrl: "https://brett-davis-gatsby.netlify.app/",
+    siteUrl: "TODO",
   },
   // More easily incorporate content into your pages through automatic TypeScript type generation and better GraphQL IntelliSense.
   // If you use VSCode you can also use the GraphQL plugin
@@ -27,9 +27,9 @@ const config: GatsbyConfig = {
     {
       resolve: "gatsby-source-sanity",
       options: {
-        projectId: "af3a1wel",
+        projectId: "af3a1wel", // replace with your Sanity project ID
         dataset: "production",
-        token: process.env.SANITY_READ_TOKEN,
+        token: process.env.SANITY_READ_TOKEN, // set SANITY_READ_TOKEN in .env.{{environment}}
       },
     },
     {
